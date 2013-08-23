@@ -50,51 +50,42 @@ public class EventHook {
 		if (side == Side.CLIENT) {
 			Disease.entityUpdateHook(event.entityLiving);
 		}
-		if(Immunology.loadedEntityList.size() > event.entityLiving.entityId)
+		if(Immunology.loadedEntityList.containsKey(event.entityLiving))
 		{
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(event.entityLiving.entityId);
+			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(event.entityLiving);
 			if(hand != null)
 			{
 				hand.entityUpdate();
 			}
 		}
-		else
-		{
-			while(event.entity.entityId >= Immunology.loadedEntityList.size())
-			{
-				Immunology.loadedEntityList.add(null);
-			}
-			Immunology.loadedEntityList.add(event.entityLiving.entityId, new EntityDiseaseHandler(event.entityLiving));
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(event.entityLiving.entityId);
-	        hand.readNBTData(event.entityLiving.getEntityData());
-		}
+		
+		
     }
 	@ForgeSubscribe
 	public void EntityJoinWorldEvent(EntityJoinWorldEvent evt)
 	{
 		if(evt.entity instanceof EntityLiving)
 		{
-			if(evt.entity.entityId > Immunology.loadedEntityList.size())
-			{
-				while(evt.entity.entityId >= Immunology.loadedEntityList.size())
-				{
-					Immunology.loadedEntityList.add(null);
-				}
-			}
-			Immunology.loadedEntityList.add(evt.entity.entityId, new EntityDiseaseHandler((EntityLiving)evt.entity));
-		}
+			Immunology.loadedEntityList.put((Entity)evt.entity, new EntityDiseaseHandler((EntityLiving)evt.entity));
+		}		
 	}
 	@ForgeSubscribe
 	public void worldSaveEvent(WorldEvent.Save evt)
 	{
-		Iterator iter = Immunology.loadedEntityList.iterator();
+		Iterator iter = Immunology.loadedEntityList.values().iterator();
 		while(iter.hasNext())
 		{
 			EntityDiseaseHandler hand = (EntityDiseaseHandler)iter.next();
-			if(hand != null)
+			if(hand != null && hand.living != null)
 			{
 				hand.saveNBTData(hand.living.getEntityData());
 			}
 		}
 	}
+	@ForgeSubscribe
+	public void worldUnloadEvent(WorldEvent.Unload evt)
+	{
+		Immunology.loadedEntityList.clear();
+	}
+	
 }

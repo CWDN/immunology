@@ -29,8 +29,11 @@ public class EntityDiseaseHandler {
 	public EntityDiseaseHandler(EntityLiving par1Living)
 	{
 		living = par1Living;
-		worldObj = par1Living.worldObj;
-		this.readNBTData(living.getEntityData());
+		if(par1Living != null)
+		{
+			worldObj = par1Living.worldObj;
+			this.readNBTData(living.getEntityData());
+		}
 	}
 	public void entityUpdate()
 	{

@@ -39,21 +39,14 @@ public class Packet2RemoveDisease extends ImmunPacket{
 	public void execute(EntityPlayer player, Side side) throws ProtocolException {
     	if(side.isClient())
     	{
-    		EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.entityId);
-    		if(hand != null)
+    		if(Immunology.loadedEntityList.containsKey(player))
     		{
-    			hand.removeDiseaseClient(diseaseid);
+	    		EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.entityId);
+	    		if(hand != null)
+	    		{
+	    			hand.removeDiseaseClient(diseaseid);
+	    		}
     		}
-    		else
-			{
-				while(player.entityId >= Immunology.loadedEntityList.size())
-				{
-					Immunology.loadedEntityList.add(null);
-				}
-				Immunology.loadedEntityList.add(player.entityId, new EntityDiseaseHandler(player));
-				EntityDiseaseHandler handler = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.entityId);
-		        handler.readNBTData(player.getEntityData());
-			}
     	}
 	}
 

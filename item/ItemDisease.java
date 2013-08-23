@@ -2,6 +2,7 @@ package piefarmer.immunology.item;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.util.Iterator;
 import java.util.Random;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -37,28 +38,25 @@ public class ItemDisease extends Item{
     {
 		if (!par2World.isRemote)
         {
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par3EntityPlayer.entityId);
-			if(hand != null)
+			int count = 0;
+			Iterator i = Immunology.loadedEntityList.values().iterator();
+			while(i.hasNext())
 			{
+				EntityDiseaseHandler hand = (EntityDiseaseHandler) i.next();
+				count++;
+				if(hand != null && hand.living instanceof EntityPlayer)
+				{
+					System.out.println(hand.living.entityId );
+				}
+			}
+			if(Immunology.loadedEntityList.containsKey(par3EntityPlayer))
+			{
+				EntityDiseaseHandler hand = (EntityDiseaseHandler)Immunology.loadedEntityList.get(par3EntityPlayer);
 				hand.clearActiveDiseases();
 				hand.addDisease(Disease.commonCold);
 				hand.addDisease(Disease.chickenPox);
 				hand.addDisease(Disease.influenza);
 				hand.addDisease(Disease.measles);
-			}
-			else
-			{
-				while(par3EntityPlayer.entityId >= Immunology.loadedEntityList.size())
-				{
-					Immunology.loadedEntityList.add(null);
-				}
-				Immunology.loadedEntityList.add(par3EntityPlayer.entityId, new EntityDiseaseHandler(par3EntityPlayer));
-				EntityDiseaseHandler handler = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par3EntityPlayer.entityId);
-				handler.clearActiveDiseases();
-				handler.addDisease(Disease.commonCold);
-				handler.addDisease(Disease.chickenPox);
-				handler.addDisease(Disease.influenza);
-				handler.addDisease(Disease.measles);
 			}
         }
 		return par1ItemStack;

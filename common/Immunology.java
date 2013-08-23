@@ -78,6 +78,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.texturepacks.ITexturePack;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -116,7 +117,7 @@ public class Immunology {
 	public static int itemeffectID = 22945;
 	public static int itemhandglider = 22947;
 	
-	public static ArrayList<EntityDiseaseHandler> loadedEntityList = new ArrayList<EntityDiseaseHandler>(10000);
+	public static HashMap<Entity, EntityDiseaseHandler> loadedEntityList = new HashMap<Entity, EntityDiseaseHandler>();
 	
 	public static BlockCustomFlower plantBlueBell = (BlockCustomFlower) new BlockCustomFlower(504).setHardness(0.0F).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("bluebell");
 	public static Block blockMedResearchTable = (new BlockMedicalResearchTable(medrestblID)).setHardness(0.1F).setStepSound(Block.soundMetalFootstep).setUnlocalizedName("medicalresearchtable");
@@ -276,18 +277,7 @@ public class Immunology {
 	{
 		@Override
 		public void onPlayerLogin(EntityPlayer player) {
-			if(player.entityId < Immunology.loadedEntityList.size())
-			{
-				Immunology.loadedEntityList.add(player.entityId, new EntityDiseaseHandler(player));
-			}
-			else
-			{
-				while(player.entityId >= Immunology.loadedEntityList.size())
-				{
-					Immunology.loadedEntityList.add(null);
-				}
-			}
-			
+			Immunology.loadedEntityList.put(player, new EntityDiseaseHandler(player));
 	         EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.entityId);
 	         if(hand != null)
 	         {
@@ -297,12 +287,8 @@ public class Immunology {
 		}
 		@Override
 		public void onPlayerLogout(EntityPlayer player) {
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.entityId);
-			if(hand != null)
-			{
-				hand.saveNBTData(player.getEntityData());
-			}
-	        Immunology.loadedEntityList.remove(player.entityId);
+			Immunology.loadedEntityList.clear();
+	        
 		}
 
 		public void onPlayerChangedDimension(EntityPlayer player) {}

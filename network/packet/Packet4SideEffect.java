@@ -44,15 +44,19 @@ public class Packet4SideEffect extends ImmunPacket{
 		DiseaseEffect effect = new DiseaseEffect(DiseaseEffect.diseaseEffects[this.diseaseeffectID]);
 		effect.setDuration(this.duration);
 		effect.setLoad(this.load);
-		if(side.isServer())
+		if(Immunology.loadedEntityList.containsKey(player))
 		{
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.entityId);
-			hand.addSideEffect(effect);
-		}
-		else if(side.isClient())
-		{
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.entityId);
-			hand.addSideEffectServer(effect);
+			if(side.isServer())
+			{
+				
+				EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.entityId);
+				hand.addSideEffect(effect);
+			}
+			else if(side.isClient())
+			{
+				EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.entityId);
+				hand.addSideEffectServer(effect);
+			}
 		}
 		
 	}

@@ -267,14 +267,17 @@ public class GuiDiagnosticTable extends GuiScreen{
 	}
 	public void getDiseases()
 	{
-		EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(this.entityplayer.entityId);
-		if(hand != null)
+		if(Immunology.loadedEntityList.containsKey(entityplayer))
 		{
-			int[] effects = hand.getDiseaseEffects();
-			this.Entitydiseases = Disease.getDiseasesByEffects(effects);
-			float size = this.Entitydiseases.size();
-			this.tile.setEntityName(entityplayer.username, entityplayer, this.Entitydiseases);
-			this.pageSetup(size);
+			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(this.entityplayer);
+			if(hand != null)
+			{
+				int[] effects = hand.getDiseaseEffects();
+				this.Entitydiseases = Disease.getDiseasesByEffects(effects);
+				float size = this.Entitydiseases.size();
+				this.tile.setEntityName(entityplayer.username, entityplayer, this.Entitydiseases);
+				this.pageSetup(size);
+			}
 		}
 	}
 	public void pageSetup(float size)

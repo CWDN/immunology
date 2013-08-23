@@ -50,20 +50,22 @@ public class ItemCure extends Item{
 		if (!par2World.isRemote)
 	    {
 			List list = this.getEffects(par1ItemStack);
-
-            if (list != null)
-            {
-                Iterator iterator = list.iterator();
-
-                while (iterator.hasNext())
-                {
-                    DiseaseEffect effect = (DiseaseEffect)iterator.next();
-                    EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par3EntityPlayer.entityId);
-                    hand.addSideEffect(effect);
-                }
-            }
-            EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par3EntityPlayer.entityId);
-            hand.removeDisease(par1ItemStack.getItemDamage() - 1);
+			 if(Immunology.loadedEntityList.containsKey(par3EntityPlayer))
+             {
+	            EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par3EntityPlayer);
+	            if (list != null)
+	            {
+	                Iterator iterator = list.iterator();
+	               
+	                while (iterator.hasNext())
+	                {
+	                    DiseaseEffect effect = (DiseaseEffect)iterator.next();
+	                    hand.addSideEffect(effect);
+	                }
+	            }
+	            
+	            hand.removeDisease(par1ItemStack.getItemDamage() - 1);
+             }
 	        
 	    }
 		if (!par3EntityPlayer.capabilities.isCreativeMode)

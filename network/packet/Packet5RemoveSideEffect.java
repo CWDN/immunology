@@ -33,8 +33,11 @@ public class Packet5RemoveSideEffect extends ImmunPacket{
 			throws ProtocolException {
 		if(side.isClient())
 		{
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.entityId);
-			hand.removeSideEffectClient(this.diseaseeffectID);
+			if(Immunology.loadedEntityList.containsKey(player))
+			{
+				EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player);
+				hand.removeSideEffectClient(this.diseaseeffectID);
+			}
 		}
 	}
 

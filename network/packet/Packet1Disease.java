@@ -23,6 +23,7 @@ public class Packet1Disease extends ImmunPacket{
 	private int stage;
 	private int duration;
 	private int length;
+	private boolean load;
 	List<Integer> effects = new ArrayList<Integer>();
     public Packet1Disease(Disease par1Disease) {
             this.diseaseid = par1Disease.getdiseaseID();
@@ -30,6 +31,7 @@ public class Packet1Disease extends ImmunPacket{
             this.duration = par1Disease.getDuration();
             this.length = par1Disease.DiseaseEffects.size();
             this.effects = par1Disease.DiseaseEffects;
+            this.load = par1Disease.getLoad();
     }
 
     public Packet1Disease() { }
@@ -40,11 +42,13 @@ public class Packet1Disease extends ImmunPacket{
             out.writeInt(diseaseid);
             out.writeInt(stage);
             out.writeInt(duration);
+            out.writeBoolean(load);
             out.writeInt(length);
             for(int index = 0; index < length; index++)
 			{
             	out.writeInt(effects.get(index));
 			}
+            
     }
 
     @Override
@@ -53,6 +57,7 @@ public class Packet1Disease extends ImmunPacket{
 			diseaseid = in.readInt();
 			stage = in.readInt();
 			duration = in.readInt();
+			load = in.readBoolean();
 			length = in.readInt();
 			for(int index = 0; index < length; index++)
 			{
@@ -64,41 +69,39 @@ public class Packet1Disease extends ImmunPacket{
 	public void execute(EntityPlayer player, Side side) throws ProtocolException {
     	
 
-    		Disease disease = new Disease(Disease.diseaseTypes[this.diseaseid]);
-			disease.setLoad(false);
-			disease.setDuration(duration);
-			disease.setStage(stage);
-			disease.setDiseaseEffects(effects);
+   		Disease disease = new Disease(Disease.diseaseTypes[this.diseaseid]);
+		disease.setLoad(this.load);
+		disease.setDuration(duration);
+		disease.setStage(stage);
+		disease.setDiseaseEffects(effects);
+		if(Immunology.loadedEntityList.containsKey(player))
+		{
 			if(side.isClient())
 			{
-				if(player.entityId < Immunology.loadedEntityList.size())
+				EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player);
+				if(hand != null)
 				{
-					EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.entityId);
-					if(hand != null)
-					{
-						hand.addDiseaseClient(disease);
-					}
-					else
-					{
-						while(player.entityId >= Immunology.loadedEntityList.size())
-						{
-							Immunology.loadedEntityList.add(null);
-						}
-						Immunology.loadedEntityList.add(player.entityId, new EntityDiseaseHandler(player));
-						EntityDiseaseHandler handler = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.entityId);
-						handler.addDiseaseClient(disease);
-					}
+					hand.addDiseaseClient(disease);
 				}
-				else
+			}
+			else
+			{
+				EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player);
+				if(hand != null)
 				{
-					while(player.entityId >= Immunology.loadedEntityList.size())
-					{
-						Immunology.loadedEntityList.add(null);
-					}
-					Immunology.loadedEntityList.add(player.entityId, new EntityDiseaseHandler(player));
-					EntityDiseaseHandler handler = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.entityId);
-					handler.addDiseaseClient(disease);
+					hand.addDisease(disease);
 				}
-			}		
-	}
+			}
+		}
+		else
+		{
+			Immunology.loadedEntityList.put(player, new EntityDiseaseHandler(player));
+			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player);
+			if(hand != null)
+			{
+				hand.addDisease(disease);
+			}
+		}
+		
+   	}	
 }

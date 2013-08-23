@@ -50,23 +50,15 @@ public class EffectSpread extends DiseaseEffect {
 									}
 									else
 									{
-										EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.entityId);
-										if(hand != null)
+										if(Immunology.loadedEntityList.containsKey(entityliving))
 										{
-											hand.addDisease(Disease.getInstancebyName(disease));
-											System.out.println(entityliving.getEntityName() + " has caught " + disease.getName() + " at " + 
-												entityliving.posX + " "+ entityliving.posY + " " + entityliving.posZ + " by proxy of " + living.getEntityName());
-										}
-										else
-										{
-											while(entityliving.entityId >= Immunology.loadedEntityList.size())
+											EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.entityId);
+											if(hand != null)
 											{
-												Immunology.loadedEntityList.add(null);
+												hand.addDisease(Disease.getInstancebyName(disease));
+												System.out.println(entityliving.getEntityName() + " has caught " + disease.getName() + " at " + 
+													entityliving.posX + " "+ entityliving.posY + " " + entityliving.posZ + " by proxy of " + living.getEntityName());
 											}
-											Immunology.loadedEntityList.add(entityliving.entityId, new EntityDiseaseHandler(entityliving));
-											EntityDiseaseHandler handler = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.entityId);
-									        handler.readNBTData(entityliving.getEntityData());
-									        handler.addDisease(Disease.getInstancebyName(disease));
 										}
 									}
 								}

@@ -22,6 +22,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
@@ -215,26 +216,24 @@ public class Disease {
     	Side side = FMLCommonHandler.instance().getEffectiveSide();
     	if(load && side.isServer())
         {
-    		EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par1EntityLiving.entityId);
-    		if(hand != null)
+    		if(Immunology.loadedEntityList.containsKey(par1EntityLiving))
     		{
-    			hand.onNewDisease(this);
+	    		EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par1EntityLiving);
+	    		if(hand != null)
+	    		{
+	    			hand.onNewDisease(this);
+	    		}
+	        	load = false;
     		}
-    		else
-			{
-				while(par1EntityLiving.entityId >= Immunology.loadedEntityList.size())
-				{
-					Immunology.loadedEntityList.add(null);
-				}
-				Immunology.loadedEntityList.add(par1EntityLiving.entityId, new EntityDiseaseHandler(par1EntityLiving));
-				EntityDiseaseHandler handler = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par1EntityLiving.entityId);
-		        if(handler != null)
-		        {
-		        	handler.onNewDisease(this);
-		        }
-			}
-        	load = false;
         }
+    	else if(side.isClient())
+    	{
+    		if(load)
+    		{
+    			load = false;
+    		}
+    		
+    	}
         if (this.duration > 0)
         {
             this.performEffect(par1EntityLiving);
@@ -248,7 +247,10 @@ public class Disease {
     {
         return --this.duration;
     }
-
+    public boolean getLoad()
+    {
+    	return this.load;
+    }
     public void setLoad(boolean par1)
     {
     	this.load = par1;
@@ -316,7 +318,7 @@ public class Disease {
         Disease disease = Disease.getInstancebyName(diseaseTypes[var1]);
         disease.setStage(var2);
         disease.setDuration(var3);
-        disease.setLoad(false);
+        disease.setLoad(true);
         return disease;
     }
     /**

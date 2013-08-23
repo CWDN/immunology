@@ -62,22 +62,14 @@ public class DiseaseCommonCold extends Disease{
 			int i = rand.nextInt(200000);
 			if(i == 1)
 			{
-				EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.entityId);
-				if(hand != null)
+				if(Immunology.loadedEntityList.containsKey(entityliving))
 				{
-					hand.addDisease(Disease.getInstancebyName(commonCold));
-					System.out.println(entityliving.getEntityName() + " has caught Common Cold at " + entityliving.posX + " "+ entityliving.posY + " " + entityliving.posZ);
-				}
-				else
-				{
-					while(entityliving.entityId >= Immunology.loadedEntityList.size())
+					EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving);
+					if(hand != null)
 					{
-						Immunology.loadedEntityList.add(null);
+						hand.addDisease(Disease.getInstancebyName(commonCold));
+						System.out.println(entityliving.getEntityName() + " has caught Common Cold at " + entityliving.posX + " "+ entityliving.posY + " " + entityliving.posZ);
 					}
-					Immunology.loadedEntityList.add(entityliving.entityId, new EntityDiseaseHandler(entityliving));
-					EntityDiseaseHandler handler = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.entityId);
-			        handler.readNBTData(entityliving.getEntityData());
-			        handler.addDisease(Disease.getInstancebyName(commonCold));
 				}
 			}
 		}
