@@ -14,11 +14,10 @@ import java.util.List;
 
 import piefarmer.immunology.common.Immunology;
 import piefarmer.immunology.entity.EntityDiseaseHandler;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -214,17 +213,25 @@ public class Disease {
     public boolean onUpdate(EntityLiving par1EntityLiving)
     {
     	Side side = FMLCommonHandler.instance().getEffectiveSide();
-    	if(load && side.isServer())
+    	if(side.isServer())
         {
-    		if(Immunology.loadedEntityList.containsKey(par1EntityLiving))
+    		if(load)
     		{
-	    		EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par1EntityLiving);
-	    		if(hand != null)
+	    		if(Immunology.loadedEntityList.containsKey(par1EntityLiving))
 	    		{
-	    			hand.onNewDisease(this);
+		    		EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par1EntityLiving);
+		    		if(hand != null)
+		    		{
+		    			hand.onNewDisease(this);
+		    		}
+		        	load = false;
 	    		}
-	        	load = false;
     		}
+    		if (this.duration > 0)
+    		{
+	            this.performEffect(par1EntityLiving);
+	            this.deincrementDuration();
+	        }
         }
     	else if(side.isClient())
     	{
@@ -232,13 +239,17 @@ public class Disease {
     		{
     			load = false;
     		}
+    		if(par1EntityLiving instanceof EntityClientPlayerMP)
+    		{
+    	        if (this.duration > 0)
+    	        {
+    	            this.performEffect(par1EntityLiving);
+    	            this.deincrementDuration();
+    	        }
+    		}
     		
     	}
-        if (this.duration > 0)
-        {
-            this.performEffect(par1EntityLiving);
-            this.deincrementDuration();
-        }
+
         
         return this.duration > 0;
     }

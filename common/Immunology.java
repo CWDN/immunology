@@ -271,6 +271,7 @@ public class Immunology {
     @ServerStarting
     public void onServerStarting(FMLServerStartingEvent event) {
         GameRegistry.registerPlayerTracker(new PlayerTracker());
+        
     }
 	
 	public class PlayerTracker implements IPlayerTracker
