@@ -78,7 +78,7 @@ public class DiseaseEffect {
 	public boolean performSideEffect(EntityLiving entityliving) {
 		if(load)
 	    {
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.entityId);
+			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.hashCode());
 	    	hand.addSideEffectsOnLoad();
 	    	this.load = false;
 	    }

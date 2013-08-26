@@ -56,7 +56,7 @@ public class DiseaseChickenPox extends Disease{
 			int i = rand.nextInt(200000);
 			if(i == 1)
 			{
-				EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.entityId);
+				EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.hashCode());
 				hand.addDisease(chickenPox.getInstancebyName(chickenPox));
 				System.out.println(entityliving.getEntityName() + " has caught ChickenPox at " + entityliving.posX + " "+ entityliving.posY + " " + entityliving.posZ);
 			}

@@ -50,7 +50,7 @@ public class InventoryDiseaseEffectRenderer extends GuiScreen
     {
         super.initGui();
         
-        EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(this.mc.thePlayer);
+        EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(this.mc.thePlayer.hashCode());
         if (!hand.getActiveDiseases().isEmpty())
         {
             this.hasDisease = true;
@@ -63,9 +63,9 @@ public class InventoryDiseaseEffectRenderer extends GuiScreen
 	private void displayDiseaseEffects()
 	{
 		int id = this.mc.thePlayer.entityId;
-		if(Immunology.loadedEntityList.containsKey(this.mc.thePlayer))
+		if(Immunology.loadedEntityList.containsKey(this.mc.thePlayer.hashCode()))
 		{
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(this.mc.thePlayer);
+			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(this.mc.thePlayer.hashCode());
 			if(hand != null)
 			{
 			    Collection var4 = hand.getActiveDiseases();

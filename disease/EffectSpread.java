@@ -42,20 +42,31 @@ public class EffectSpread extends DiseaseEffect {
 									{
 										if(entityliving instanceof EntityChicken || entityliving instanceof EntityPlayer)
 										{
-											EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving);
+											EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.hashCode());
 											if(hand != null)
 											{
 												hand.addDisease(Disease.diseaseTypes[disease.getdiseaseID()]);
 												System.out.println(entityliving.getEntityName() + " has caught " + disease.getName() + " at " + 
 														entityliving.posX + " "+ entityliving.posY + " " + entityliving.posZ + " by proxy of " + living.getEntityName());
 											}
+											else
+											{
+												Immunology.loadedEntityList.put(entityliving.hashCode(), new EntityDiseaseHandler(entityliving));
+												hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.hashCode());
+												if(hand != null)
+												{
+													hand.addDisease(Disease.diseaseTypes[disease.getdiseaseID()]);
+													System.out.println(entityliving.getEntityName() + " has caught " + disease.getName() + " at " + 
+															entityliving.posX + " "+ entityliving.posY + " " + entityliving.posZ + " by proxy of " + living.getEntityName());
+												}
+											}
 										}
 									}
 									else
 									{
-										if(Immunology.loadedEntityList.containsKey(entityliving))
+										if(Immunology.loadedEntityList.containsKey(entityliving.hashCode()))
 										{
-											EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving);
+											EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.hashCode());
 											if(hand != null)
 											{
 												hand.addDisease(Disease.diseaseTypes[disease.getdiseaseID()]);

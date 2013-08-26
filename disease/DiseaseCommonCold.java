@@ -49,7 +49,7 @@ public class DiseaseCommonCold extends Disease{
 		}
 		else
 		{
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.entityId);
+			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.hashCode());
 			hand.removeDisease(this.getdiseaseID());
 		}
 	}
@@ -62,9 +62,9 @@ public class DiseaseCommonCold extends Disease{
 			int i = rand.nextInt(200000);
 			if(i == 1)
 			{
-				if(Immunology.loadedEntityList.containsKey(entityliving))
+				if(Immunology.loadedEntityList.containsKey(entityliving.hashCode()))
 				{
-					EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving);
+					EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.hashCode());
 					if(hand != null)
 					{
 						hand.addDisease(Disease.getInstancebyName(commonCold));

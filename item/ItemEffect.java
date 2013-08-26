@@ -19,7 +19,7 @@ public class ItemEffect extends Item{
     {
 		if (par2World.isRemote)
         {
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par3EntityPlayer.entityId);
+			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par3EntityPlayer.hashCode());
 			hand.addSideEffect(DiseaseEffect.sneeze);
 			hand.addSideEffect(DiseaseEffect.chills);
         }

@@ -50,9 +50,9 @@ public class ItemCure extends Item{
 		if (!par2World.isRemote)
 	    {
 			List list = this.getEffects(par1ItemStack);
-			 if(Immunology.loadedEntityList.containsKey(par3EntityPlayer))
+			 if(Immunology.loadedEntityList.containsKey(par3EntityPlayer.hashCode()))
              {
-	            EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par3EntityPlayer);
+	            EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par3EntityPlayer.hashCode());
 	            if (list != null)
 	            {
 	                Iterator iterator = list.iterator();

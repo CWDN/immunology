@@ -49,9 +49,9 @@ public class ItemDisease extends Item{
 					System.out.println(hand.living.entityId );
 				}
 			}
-			if(Immunology.loadedEntityList.containsKey(par3EntityPlayer))
+			if(Immunology.loadedEntityList.containsKey(par3EntityPlayer.hashCode()))
 			{
-				EntityDiseaseHandler hand = (EntityDiseaseHandler)Immunology.loadedEntityList.get(par3EntityPlayer);
+				EntityDiseaseHandler hand = (EntityDiseaseHandler)Immunology.loadedEntityList.get(par3EntityPlayer.hashCode());
 				hand.clearActiveDiseases();
 				hand.addDisease(Disease.commonCold);
 				hand.addDisease(Disease.chickenPox);

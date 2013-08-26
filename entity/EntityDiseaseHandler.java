@@ -391,7 +391,7 @@ public class EntityDiseaseHandler {
             this.onNewSideEffect(effect);
         }
     }
-    public void addSideEffectServer(DiseaseEffect par1Effect)
+    public void addSideEffectClient(DiseaseEffect par1Effect)
     {
         if (this.activeSideEffectsMap.containsKey(Integer.valueOf(par1Effect.getDiseaseEffectID())))
         {

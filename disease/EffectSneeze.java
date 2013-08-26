@@ -16,30 +16,33 @@ public class EffectSneeze extends DiseaseEffect{
 	{
 		worldObj = living.worldObj;
 		EntityPlayer player = null;
-		int rint = rand.nextInt(3000);
-		if(living instanceof EntityPlayer)
+		if(!worldObj.isRemote)
 		{
-			player = (EntityPlayer)living;
-		}
-		if(rint < 3)
-		{
-			if(living.isEntityUndead())
+			int rint = rand.nextInt(3000);
+			if(living instanceof EntityPlayer)
 			{
-				living.setEntityHealth(living.getHealth() - 1);
+				player = (EntityPlayer)living;
 			}
-			else
+			if(rint < 3)
 			{
-				
-				if(player != null)
+				if(living.isEntityUndead())
 				{
-					Float rfloat = rand.nextFloat();
-					Float pitch = 0.9F + (rfloat / 8);
-					worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "piefarmer.immunology.sneeze", 0.65F, pitch);
-					this.sneezeMovement(living);
+					living.setEntityHealth(living.getHealth() - 1);
 				}
 				else
 				{
-					this.sneezeSound(living);
+					
+					if(player != null)
+					{
+						Float rfloat = rand.nextFloat();
+						Float pitch = 0.9F + (rfloat / 8);
+						worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "piefarmer.immunology.sneeze", 0.65F, pitch);
+						this.sneezeMovement(living);
+					}
+					else
+					{
+						this.sneezeSound(living);
+					}
 				}
 			}
 		}

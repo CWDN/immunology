@@ -16,26 +16,29 @@ public class EffectCough extends DiseaseEffect {
 
 		worldObj = entityliving.worldObj;
 		EntityPlayer player = null;
-		if(entityliving instanceof EntityPlayer)
+		if(!worldObj.isRemote)
 		{
-			player = (EntityPlayer)entityliving;
-		}
-		int rint = rand.nextInt(900);
-		if(rint < 2)
-		{
-			String name = entityliving.getEntityName();
-			String villagername = "Villager";
-			if(player != null)
+			if(entityliving instanceof EntityPlayer)
 			{
-				Float rfloat = rand.nextFloat();
-				Float pitch = 0.7F + (rfloat / 2);
-				worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "piefarmer.immunology.cough", 0.1F, pitch);
+				player = (EntityPlayer)entityliving;
 			}
-			else if(name.equals(villagername))
+			int rint = rand.nextInt(900);
+			if(rint < 2)
 			{
-				Float rfloat = rand.nextFloat();
-				Float pitch = 0.5F + (rfloat / 2);
-				worldObj.playSoundEffect(entityliving.posX, entityliving.posY, entityliving.posZ, "piefarmer.immunology.cough", 0.1F, pitch);
+				String name = entityliving.getEntityName();
+				String villagername = "Villager";
+				if(player != null)
+				{
+					Float rfloat = rand.nextFloat();
+					Float pitch = 0.7F + (rfloat / 2);
+					worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "piefarmer.immunology.cough", 0.1F, pitch);
+				}
+				else if(name.equals(villagername))
+				{
+					Float rfloat = rand.nextFloat();
+					Float pitch = 0.5F + (rfloat / 2);
+					worldObj.playSoundEffect(entityliving.posX, entityliving.posY, entityliving.posZ, "piefarmer.immunology.cough", 0.1F, pitch);
+				}
 			}
 		}
 	}

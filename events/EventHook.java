@@ -50,9 +50,9 @@ public class EventHook {
 		if (side == Side.CLIENT) {
 			Disease.entityUpdateHook(event.entityLiving);
 		}
-		if(Immunology.loadedEntityList.containsKey(event.entityLiving))
+		if(Immunology.loadedEntityList.containsKey(event.entityLiving.hashCode()))
 		{
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(event.entityLiving);
+			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(event.entityLiving.hashCode());
 			if(hand != null)
 			{
 				hand.entityUpdate();
@@ -66,7 +66,7 @@ public class EventHook {
 	{
 		if(evt.entity instanceof EntityLiving)
 		{
-			Immunology.loadedEntityList.put((Entity)evt.entity, new EntityDiseaseHandler((EntityLiving)evt.entity));
+			Immunology.loadedEntityList.put(evt.entity.hashCode(), new EntityDiseaseHandler((EntityLiving)evt.entity));
 		}		
 	}
 	@ForgeSubscribe

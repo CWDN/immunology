@@ -219,9 +219,9 @@ public class Disease {
         {
     		if(load)
     		{
-	    		if(Immunology.loadedEntityList.containsKey(par1EntityLiving))
+	    		if(Immunology.loadedEntityList.containsKey(par1EntityLiving.hashCode()))
 	    		{
-		    		EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par1EntityLiving);
+		    		EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par1EntityLiving.hashCode());
 		    		if(hand != null)
 		    		{
 		    			hand.onNewDisease(this);

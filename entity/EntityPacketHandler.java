@@ -26,7 +26,7 @@ public class EntityPacketHandler {
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
 		if(side == Side.SERVER)
 		{
-			PacketDispatcher.sendPacketToAllPlayers(new Packet2RemoveDisease(par1Disease.getdiseaseID()).makePacket());
+			PacketDispatcher.sendPacketToAllPlayers(new Packet2RemoveDisease(par1Disease.getdiseaseID(), player.hashCode()).makePacket());
 		}
     }
     public static void onChangedDisease(Disease par1Disease, Player player)
@@ -34,11 +34,11 @@ public class EntityPacketHandler {
     	Side side = FMLCommonHandler.instance().getEffectiveSide();
     	if(side == Side.SERVER)
 		{
-    		PacketDispatcher.sendPacketToAllPlayers(new Packet1Disease(par1Disease).makePacket());
+    		PacketDispatcher.sendPacketToAllPlayers(new Packet1Disease(par1Disease, player.hashCode()).makePacket());
 		}
 		else if(side == Side.CLIENT)
 		{
-			PacketDispatcher.sendPacketToServer(new Packet1Disease(par1Disease).makePacket());
+			PacketDispatcher.sendPacketToServer(new Packet1Disease(par1Disease, player.hashCode()).makePacket());
 		}
     }
     public static void onNewDisease(Disease par1Disease, Player player)
@@ -46,11 +46,11 @@ public class EntityPacketHandler {
     	Side side = FMLCommonHandler.instance().getEffectiveSide();
     	if(side == Side.SERVER)
     	{
-    		PacketDispatcher.sendPacketToAllPlayers(new Packet1Disease(par1Disease).makePacket());
+    		PacketDispatcher.sendPacketToAllPlayers(new Packet1Disease(par1Disease, player.hashCode()).makePacket());
 		}
 		else if(side == Side.CLIENT)
 		{
-			PacketDispatcher.sendPacketToServer(new Packet1Disease(par1Disease).makePacket());
+			PacketDispatcher.sendPacketToServer(new Packet1Disease(par1Disease, player.hashCode()).makePacket());
 		}
     }
     public static void onFinishedSideEffect(DiseaseEffect effect, Player player)
@@ -58,7 +58,7 @@ public class EntityPacketHandler {
     	Side side = FMLCommonHandler.instance().getEffectiveSide();
     	if(side.isServer())
     	{
-    		PacketDispatcher.sendPacketToAllPlayers(new Packet5RemoveSideEffect(effect.getDiseaseEffectID()).makePacket());
+    		PacketDispatcher.sendPacketToAllPlayers(new Packet5RemoveSideEffect(effect.getDiseaseEffectID(), player.hashCode()).makePacket());
     	}
     	else if(side.isClient())
     	{
@@ -69,22 +69,22 @@ public class EntityPacketHandler {
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
     	if(side == Side.SERVER)
 		{
-    		PacketDispatcher.sendPacketToAllPlayers(new Packet4SideEffect(effect).makePacket());
+    		PacketDispatcher.sendPacketToAllPlayers(new Packet4SideEffect(effect, player.hashCode()).makePacket());
 		}
 		else if(side == Side.CLIENT)
 		{
-			PacketDispatcher.sendPacketToServer(new Packet4SideEffect(effect).makePacket());
+			PacketDispatcher.sendPacketToServer(new Packet4SideEffect(effect, player.hashCode()).makePacket());
 		}
 	}
 	public static void onNewSideEffect(DiseaseEffect effect, Player player) {
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
     	if(side == Side.SERVER)
 		{
-    		PacketDispatcher.sendPacketToAllPlayers(new Packet4SideEffect(effect).makePacket());
+    		PacketDispatcher.sendPacketToAllPlayers(new Packet4SideEffect(effect, player.hashCode()).makePacket());
 		}
 		else if(side == Side.CLIENT)
 		{
-			PacketDispatcher.sendPacketToServer(new Packet4SideEffect(effect).makePacket());
+			PacketDispatcher.sendPacketToServer(new Packet4SideEffect(effect, player.hashCode()).makePacket());
 		}
 		
 	}

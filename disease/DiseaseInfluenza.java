@@ -43,7 +43,7 @@ public class DiseaseInfluenza extends Disease{
 		}
 		else
 		{
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.entityId);
+			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.hashCode());
 			hand.removeDisease(this.getdiseaseID());
 		}
 	}
@@ -55,7 +55,7 @@ public class DiseaseInfluenza extends Disease{
 			int i = rand.nextInt(200000);
 			if(i == 1)
 			{
-				EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.entityId);
+				EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.hashCode());
 				hand.addDisease(new Disease(influenza));
 				System.out.println(entityliving.getEntityName() + " has caught Influenza at " + entityliving.posX + " "+ entityliving.posY + " " + entityliving.posZ);
 			}

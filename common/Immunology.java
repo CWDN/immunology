@@ -117,7 +117,7 @@ public class Immunology {
 	public static int itemeffectID = 22945;
 	public static int itemhandglider = 22947;
 	
-	public static HashMap<Entity, EntityDiseaseHandler> loadedEntityList = new HashMap<Entity, EntityDiseaseHandler>();
+	public static HashMap<Integer, EntityDiseaseHandler> loadedEntityList = new HashMap<Integer, EntityDiseaseHandler>();
 	
 	public static BlockCustomFlower plantBlueBell = (BlockCustomFlower) new BlockCustomFlower(504).setHardness(0.0F).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("bluebell");
 	public static Block blockMedResearchTable = (new BlockMedicalResearchTable(medrestblID)).setHardness(0.1F).setStepSound(Block.soundMetalFootstep).setUnlocalizedName("medicalresearchtable");
@@ -278,8 +278,8 @@ public class Immunology {
 	{
 		@Override
 		public void onPlayerLogin(EntityPlayer player) {
-			Immunology.loadedEntityList.put(player, new EntityDiseaseHandler(player));
-	         EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.entityId);
+			Immunology.loadedEntityList.put(player.hashCode(), new EntityDiseaseHandler(player));
+	         EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.hashCode());
 	         if(hand != null)
 	         {
 	         	hand.readNBTData(player.getEntityData());
@@ -295,7 +295,7 @@ public class Immunology {
 		public void onPlayerChangedDimension(EntityPlayer player) {}
 		@Override
 		public void onPlayerRespawn(EntityPlayer player) {
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.entityId);
+			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.hashCode());
 			if(hand != null)
 			{
 				hand.clearActiveDiseases();

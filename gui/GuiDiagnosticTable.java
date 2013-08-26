@@ -267,9 +267,9 @@ public class GuiDiagnosticTable extends GuiScreen{
 	}
 	public void getDiseases()
 	{
-		if(Immunology.loadedEntityList.containsKey(entityplayer))
+		if(Immunology.loadedEntityList.containsKey(entityplayer.hashCode()))
 		{
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(this.entityplayer);
+			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(this.entityplayer.hashCode());
 			if(hand != null)
 			{
 				int[] effects = hand.getDiseaseEffects();
