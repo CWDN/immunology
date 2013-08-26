@@ -68,7 +68,6 @@ public class Packet1Disease extends ImmunPacket{
     @Override
 	public void execute(EntityPlayer player, Side side) throws ProtocolException {
     	
-
    		Disease disease = new Disease(Disease.diseaseTypes[this.diseaseid]);
 		disease.setLoad(this.load);
 		disease.setDuration(duration);
@@ -89,7 +88,7 @@ public class Packet1Disease extends ImmunPacket{
 				EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player);
 				if(hand != null)
 				{
-					hand.addDisease(disease);
+					hand.addDiseaseServer(disease);
 				}
 			}
 		}

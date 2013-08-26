@@ -26,7 +26,7 @@ public class EntityPacketHandler {
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
 		if(side == Side.SERVER)
 		{
-			PacketDispatcher.sendPacketToPlayer(new Packet2RemoveDisease(par1Disease.getdiseaseID()).makePacket(), player);
+			PacketDispatcher.sendPacketToAllPlayers(new Packet2RemoveDisease(par1Disease.getdiseaseID()).makePacket());
 		}
     }
     public static void onChangedDisease(Disease par1Disease, Player player)
@@ -34,7 +34,7 @@ public class EntityPacketHandler {
     	Side side = FMLCommonHandler.instance().getEffectiveSide();
     	if(side == Side.SERVER)
 		{
-    		PacketDispatcher.sendPacketToPlayer(new Packet1Disease(par1Disease).makePacket(), player);
+    		PacketDispatcher.sendPacketToAllPlayers(new Packet1Disease(par1Disease).makePacket());
 		}
 		else if(side == Side.CLIENT)
 		{
@@ -46,7 +46,7 @@ public class EntityPacketHandler {
     	Side side = FMLCommonHandler.instance().getEffectiveSide();
     	if(side == Side.SERVER)
     	{
-    		PacketDispatcher.sendPacketToPlayer(new Packet1Disease(par1Disease).makePacket(), player);
+    		PacketDispatcher.sendPacketToAllPlayers(new Packet1Disease(par1Disease).makePacket());
 		}
 		else if(side == Side.CLIENT)
 		{
@@ -58,14 +58,18 @@ public class EntityPacketHandler {
     	Side side = FMLCommonHandler.instance().getEffectiveSide();
     	if(side.isServer())
     	{
-    		PacketDispatcher.sendPacketToPlayer(new Packet5RemoveSideEffect(effect.getDiseaseEffectID()).makePacket(), player);
+    		PacketDispatcher.sendPacketToAllPlayers(new Packet5RemoveSideEffect(effect.getDiseaseEffectID()).makePacket());
+    	}
+    	else if(side.isClient())
+    	{
+    		
     	}
     }
 	public static void onChangedSideEffect(DiseaseEffect effect, Player player) {
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
     	if(side == Side.SERVER)
 		{
-    		PacketDispatcher.sendPacketToPlayer(new Packet4SideEffect(effect).makePacket(), player);
+    		PacketDispatcher.sendPacketToAllPlayers(new Packet4SideEffect(effect).makePacket());
 		}
 		else if(side == Side.CLIENT)
 		{
@@ -76,7 +80,7 @@ public class EntityPacketHandler {
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
     	if(side == Side.SERVER)
 		{
-    		PacketDispatcher.sendPacketToPlayer(new Packet4SideEffect(effect).makePacket(), player);
+    		PacketDispatcher.sendPacketToAllPlayers(new Packet4SideEffect(effect).makePacket());
 		}
 		else if(side == Side.CLIENT)
 		{

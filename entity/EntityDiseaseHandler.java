@@ -127,19 +127,30 @@ public class EntityDiseaseHandler {
         	this.activeDiseasesMap.put(Integer.valueOf(disease.getdiseaseID()), disease);
         }
     }
+    public void addDiseaseServer(Disease par1Disease)
+    {
+    	Disease disease = par1Disease.getInstancebyName(par1Disease);
+        if (this.activeDiseasesMap.containsKey(Integer.valueOf(disease.getdiseaseID())))
+        {
+            ((Disease)this.activeDiseasesMap.get(Integer.valueOf(disease.getdiseaseID()))).combine(disease);
+        }
+        else
+        {
+        	this.activeDiseasesMap.put(Integer.valueOf(disease.getdiseaseID()), disease);
+        }
+    }
     /**
      * When disease is changed/combined update is set to true
      */
     public void onChangedDisease(Disease par1Disease)
     {
     	Side side = FMLCommonHandler.instance().getEffectiveSide();
-    	System.out.println("Disease Changed " + side.name() + " " + this.living.getEntityName() + " " + this.living.entityId);
+    	//System.out.println("Disease Changed " + side.name() + " " + this.living.getEntityName() + " " + this.living.entityId);
     	if(living instanceof EntityPlayer)
     	{
     		Player player = (Player)this.living;
     		EntityPacketHandler.onChangedDisease(par1Disease, player);
-    	}
-        
+    	}        
     }
     /**
      * When new disease is added set a variable to update
@@ -148,7 +159,7 @@ public class EntityDiseaseHandler {
     public void onNewDisease(Disease par1Disease)
     {
     	Side side = FMLCommonHandler.instance().getEffectiveSide();
-    	System.out.println("New Disease " + side.name() + " " + this.living.getEntityName() + " " + this.living.entityId);
+    	//System.out.println("New Disease " + side.name() + " " + this.living.getEntityName() + " " + this.living.entityId);
     	if(living instanceof EntityPlayer)
     	{
     		Player player = (Player)this.living;
@@ -181,7 +192,7 @@ public class EntityDiseaseHandler {
      */
     protected void onFinishedDisease(Disease par1Disease)
     {
-    	System.out.println("Disease Finished");
+    	//System.out.println("Disease Finished");
     	if(living instanceof Player)
     	{
     		Player player = (Player)this.living;

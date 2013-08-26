@@ -20,7 +20,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -239,7 +241,7 @@ public class Disease {
     		{
     			load = false;
     		}
-    		if(par1EntityLiving instanceof EntityClientPlayerMP)
+    		if(par1EntityLiving instanceof EntityClientPlayerMP || par1EntityLiving instanceof EntityCreature)
     		{
     	        if (this.duration > 0)
     	        {

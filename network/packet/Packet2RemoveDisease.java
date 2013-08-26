@@ -41,7 +41,7 @@ public class Packet2RemoveDisease extends ImmunPacket{
     	{
     		if(Immunology.loadedEntityList.containsKey(player))
     		{
-	    		EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player.entityId);
+	    		EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(player);
 	    		if(hand != null)
 	    		{
 	    			hand.removeDiseaseClient(diseaseid);
