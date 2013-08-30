@@ -93,7 +93,7 @@ public class BlockRock extends BlockContainer{
 	public boolean canBlockStay(World par1World, int par2, int par3, int par4)
     {
         Block soil = blocksList[par1World.getBlockId(par2, par3 - 1, par4)];
-        return (soil != null && soil.grass.blockID == soil.blockID);
+        return (soil != null && soil.grass.blockID == soil.blockID || soil != null &&  soil.blockID == soil.stone.blockID);
     }
 	public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
     {

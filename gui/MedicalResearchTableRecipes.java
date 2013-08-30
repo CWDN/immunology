@@ -189,5 +189,48 @@ public class MedicalResearchTableRecipes {
 	    	}
 	    	return false;
 	    }
+	    public List<ItemStack> getIngredients(int id, boolean isCure)
+	    {
+	    	if(!isCure)
+	    	{
+		    	Iterator iter = this.brewingList.keySet().iterator();
+		    	while(iter.hasNext())
+		    	{
+		    		Integer i = (Integer) iter.next();
+		    		List<ItemStack> l = (List<ItemStack>) this.brewingList.get(i);
+		    		if(l.get(0).getItemDamage() == id)
+		    		{
+		    			ItemStack is = new ItemStack(Item.itemsList[i]);
+		    			return Arrays.asList(is, l.get(1));
+		    		}
+		    	}
+		    	iter = this.metaBrewingList.keySet().iterator();
+		    	while(iter.hasNext())
+		    	{
+		    		List<Integer> i = (List<Integer>) iter.next();
+		    		List<ItemStack> l = (List<ItemStack>) this.brewingList.get(i);
+		    		if(l.get(0).getItemDamage() == id)
+		    		{
+		    			ItemStack is = new ItemStack(Item.itemsList[i.get(0)], i.get(1));
+		    			return Arrays.asList(is, l.get(1));
+		    		}
+		    	}
+	    	}
+	    	else
+	    	{
+	    		Iterator iter = this.sideEffectsList.keySet().iterator();
+	    		while(iter.hasNext())
+	    		{
+	    			List<Integer> l = (List<Integer>)iter.next();
+	    			ItemStack is = new ItemStack(Item.itemsList[l.get(0)], 1, l.get(1));
+	    			Integer i = this.sideEffectsList.get(l);
+	    			if(i == id - 1)
+	    			{
+	    				return Arrays.asList(new ItemStack(Immunology.cure, 1, id), is);
+	    			}
+	    		}
+	    	}
+	    	return null;
+	    }
 
 }

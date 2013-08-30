@@ -3,12 +3,17 @@ package piefarmer.immunology.disease;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.Random;
+
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 
 import piefarmer.immunology.common.Immunology;
 import piefarmer.immunology.entity.EntityDiseaseHandler;
@@ -76,17 +81,41 @@ public class DiseaseEffect {
 		return this.stageEnd;
 	}
 	public boolean performSideEffect(EntityLiving entityliving) {
-		if(load)
-	    {
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.hashCode());
-	    	hand.addSideEffectsOnLoad();
-	    	this.load = false;
-	    }
-		if (this.duration > 0)
+		Side side = FMLCommonHandler.instance().getEffectiveSide();
+    	if(side.isServer())
         {
-            this.deincrementDuration();
+    		if(load)
+    		{
+	    		if(Immunology.loadedEntityList.containsKey(entityliving.hashCode()))
+	    		{
+		    		EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.hashCode());
+		    		if(hand != null)
+		    		{
+		    			hand.addSideEffectsOnLoad();
+		    		}
+		        	load = false;
+	    		}
+    		}
+    		if (this.duration > 0)
+    		{
+	            this.deincrementDuration();
+	        }
         }
-        
+    	else if(side.isClient())
+    	{
+    		if(load)
+    		{
+    			load = false;
+    		}
+    		if(entityliving instanceof EntityClientPlayerMP || entityliving instanceof EntityCreature)
+    		{
+    	        if (this.duration > 0)
+    	        {
+    	            this.deincrementDuration();
+    	        }
+    		}
+    		
+    	}
         return this.duration > 0;
 	}
 	private void deincrementDuration() {

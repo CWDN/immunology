@@ -7,6 +7,7 @@ import piefarmer.immunology.entity.EntityBadger;
 import piefarmer.immunology.events.EventSounds;
 import piefarmer.immunology.gui.ContainerMedicalResearchTable;
 import piefarmer.immunology.gui.GuiDiagnosticTable;
+import piefarmer.immunology.gui.GuiMedicalBook;
 import piefarmer.immunology.gui.GuiMedicalResearchTable;
 import piefarmer.immunology.item.ItemDiagnosticTableRenderer;
 import piefarmer.immunology.item.ItemHangGliderRenderer;
@@ -56,6 +57,14 @@ public class ClientProxy extends CommonProxy
 					return new GuiMedicalResearchTable(player.inventory, (TileEntityMedicalResearchTable)tileEntity);
 				case 1:
 					return new GuiDiagnosticTable(player, (TileEntityDiagnosticTable)tileEntity);
+			}
+		}
+		else
+		{
+			switch(ID)
+			{
+				case 2:
+					return new GuiMedicalBook(player.inventory.getCurrentItem());
 			}
 		}
 		return null;

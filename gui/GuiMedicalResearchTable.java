@@ -14,12 +14,14 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 
 import piefarmer.immunology.disease.Disease;
+import piefarmer.immunology.item.ItemMedicalBook;
 import piefarmer.immunology.network.packet.Packet6Cure;
 import piefarmer.immunology.tileentity.TileEntityMedicalResearchTable;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -106,10 +108,17 @@ public class GuiMedicalResearchTable extends GuiContainer{
         GL11.glScalef(0.5F, 0.5F, 1F);
         posX *= 2;
         posY *= 2;
-        immunfont.drawString("Total Known", posX + 259, posY + 52, 0x444444);
-        immunfont.drawString("Diseases: " + posX, posX + 259, posY + 62, 0x444444);
-        immunfont.drawString("Total Found", posX + 259, posY + 96, 0x444444);
-        immunfont.drawString("Cures: " + posY, posX + 259, posY + 106, 0x444444);
+        if(this.tile.itemstacks[12] != null && this.tile.itemstacks[12].getItem() instanceof ItemMedicalBook)
+        {
+        	ItemStack is = this.tile.itemstacks[12];
+        	ItemMedicalBook it = (ItemMedicalBook) is.getItem();
+        	List dl = it.getDiseasePages(is);
+        	List cl = it.getCurePages(is);
+	        immunfont.drawString("Total Known", posX + 259, posY + 52, 0x444444);
+	        immunfont.drawString("Diseases: " + dl.size(), posX + 259, posY + 62, 0x444444);
+	        immunfont.drawString("Total Found", posX + 259, posY + 96, 0x444444);
+	        immunfont.drawString("Cures: " + cl.size(), posX + 259, posY + 106, 0x444444);
+        }
         posX /= 2;
         posY /= 2;
         GL11.glScalef(2F, 2F, 1F);

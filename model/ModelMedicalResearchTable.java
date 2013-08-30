@@ -6,6 +6,10 @@
 
 package piefarmer.immunology.model;
 
+import org.lwjgl.opengl.GL11;
+
+import scala.util.Random;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -192,6 +196,7 @@ public class ModelMedicalResearchTable extends ModelBase
   }
   public void renderAll()
   {
+	  GL11.glColor4f(1F, 1F, 1F, 1F);
 	  TableLeft.render(0.0625F);
 	  TableRight.render(0.0625F);
 	  TableTop.render(0.0625F);

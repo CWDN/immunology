@@ -64,6 +64,7 @@ import piefarmer.immunology.item.ItemDecayingFood;
 import piefarmer.immunology.item.ItemDisease;
 import piefarmer.immunology.item.ItemEffect;
 import piefarmer.immunology.item.ItemHangGlider;
+import piefarmer.immunology.item.ItemMedicalBook;
 import piefarmer.immunology.model.ModelBadger;
 import piefarmer.immunology.model.RenderBadger;
 import piefarmer.immunology.network.packet.ImmunPacket;
@@ -116,6 +117,7 @@ public class Immunology {
 	public static int itemcureID = 22944;
 	public static int itemeffectID = 22945;
 	public static int itemhandglider = 22947;
+	public static int itemmedicalbook = 22948;
 	
 	public static HashMap<Integer, EntityDiseaseHandler> loadedEntityList = new HashMap<Integer, EntityDiseaseHandler>();
 	
@@ -128,12 +130,12 @@ public class Immunology {
 	public static ItemCure cure = (ItemCure) new ItemCure(itemcureID).setUnlocalizedName("cure");
 	public static Item effect = new ItemEffect(itemeffectID).setUnlocalizedName("effect");
 	public static Item hangGlider = new ItemHangGlider(itemhandglider).setUnlocalizedName("handglider");
+	public static Item medicalBook = new ItemMedicalBook(itemmedicalbook).setUnlocalizedName("medicalbook");
 	
-	
-	public static Item beefRaw = (new ItemDecayingFood(107, 3, 0.3F, true)).setUnlocalizedName("beefRaw");
-    public static Item chickenRaw = (new ItemDecayingFood(109, 2, 0.3F, true)).setPotionEffect(Potion.hunger.id, 30, 0, 0.3F).setUnlocalizedName("chickenRaw");
-    public static Item fishRaw = (new ItemDecayingFood(93, 2, 0.3F, false)).setUnlocalizedName("fishRaw");
-    public static Item porkRaw = (new ItemDecayingFood(63, 3, 0.3F, true)).setUnlocalizedName("porkchopRaw");
+	public static Item beefRaw; 
+    public static Item chickenRaw;
+    public static Item fishRaw;
+    public static Item porkRaw;
     
     public static Block torchWoodLit;
     public static Block torchWoodNotLit = (new BlockCustomTorch(torchID, false)).setHardness(0.0F).setLightValue(0).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("unlittorch");
@@ -144,12 +146,19 @@ public class Immunology {
 		proxy.preInit();
 		Block.blocksList[50] = null;
 		torchWoodLit = (new BlockCustomTorch(50, true)).setHardness(0.0F).setLightValue(0.9375F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("torch");
+		Item.itemsList[63] = null;
+		Item.itemsList[93] = null;
+		Item.itemsList[107] = null;
+		Item.itemsList[109] = null;
+		porkRaw = (new ItemDecayingFood(63, 3, 0.3F, true)).setUnlocalizedName("porkchopRaw");
+		fishRaw = (new ItemDecayingFood(93, 2, 0.3F, false)).setUnlocalizedName("fishRaw");
+		chickenRaw = (new ItemDecayingFood(109, 2, 0.3F, true)).setPotionEffect(Potion.hunger.id, 30, 0, 0.3F).setUnlocalizedName("chickenRaw");
+		beefRaw = (new ItemDecayingFood(107, 3, 0.3F, true)).setUnlocalizedName("beefRaw");
 	}
 
 	@Init
 	public void load(FMLInitializationEvent evt) {
 			
-		
 		GameRegistry.registerWorldGenerator(new ImmunologyWorldGenerator());
 		MinecraftForge.EVENT_BUS.register(new EventHook());
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
@@ -174,6 +183,7 @@ public class Immunology {
 		blockDiagTable.setCreativeTab(tabImmunology);
 		cure.setCreativeTab(tabImmunology);
 		effect.setCreativeTab(tabImmunology);
+		medicalBook.setCreativeTab(tabImmunology);
 		torchWoodLit.setCreativeTab(CreativeTabs.tabDecorations);
 		blockRock.setCreativeTab(CreativeTabs.tabDecorations);
 		
@@ -227,6 +237,13 @@ public class Immunology {
 			"SSS",
 			'S', Item.stick,
 			'L', Item.leather});
+		GameRegistry.addRecipe(new ItemStack(this.medicalBook, 1), new Object[]{
+			"LP ",
+			"PG ",
+			"   ",
+			'P', Item.paper,
+			'L', Item.leather,
+			'G', Item.glassBottle});
 		//
 		//LANGUAGE REGISTRY
 		//
@@ -237,6 +254,7 @@ public class Immunology {
 		LanguageRegistry.addName(cure, "Disease Cure");
 		LanguageRegistry.addName(effect, "Effect Item");
 		LanguageRegistry.addName(hangGlider, "Hang Glider");
+		LanguageRegistry.addName(medicalBook, "Medical Book");
 		LanguageRegistry.addName(blockRock, "Rock");
 		LanguageRegistry.addName(torchWoodNotLit, "Torch (Burnt out)");
 		LanguageRegistry.instance().addStringLocalization("itemGroup.tabImmunology", "en_US", "Immunology");

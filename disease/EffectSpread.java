@@ -20,13 +20,13 @@ public class EffectSpread extends DiseaseEffect {
 	public void performEffect(Disease disease, EntityLiving living){
 		worldObj = living.worldObj;
 		double par7 = 5.0D;
-		if(worldObj != null && worldObj.isRemote)
+		if(worldObj != null && !worldObj.isRemote)
 		{
-			for (int var12 = 0; var12 < worldObj.getLoadedEntityList().size(); ++var12)
+			for (int var12 = 0; var12 < worldObj.loadedEntityList.size(); ++var12)
 			{
-				if(worldObj.getLoadedEntityList().size() > var12)
+				if(worldObj.loadedEntityList.size() > var12)
 				{
-					Entity var13 = (Entity)worldObj.getLoadedEntityList().get(var12);
+					Entity var13 = (Entity)worldObj.loadedEntityList.get(var12);
 					double var14 = var13.getDistanceSq(living.posX, living.posY, living.posZ);
             
 					if ((par7 < 0.0D || var14 < par7 * par7))

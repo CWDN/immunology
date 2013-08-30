@@ -29,6 +29,7 @@ public abstract class ImmunPacket {
             builder.put(Integer.valueOf(3), Packet4SideEffect.class);
             builder.put(Integer.valueOf(4), Packet5RemoveSideEffect.class);
             builder.put(Integer.valueOf(5), Packet6Cure.class);
+            builder.put(Integer.valueOf(6), Packet7Book.class);
             idMap = builder.build();
     }
     public static ImmunPacket constructPacket(int packetId) throws ProtocolException, ReflectiveOperationException {

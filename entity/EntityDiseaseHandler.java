@@ -14,6 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import piefarmer.immunology.disease.Disease;
 import piefarmer.immunology.disease.DiseaseEffect;
 
+import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -148,8 +149,16 @@ public class EntityDiseaseHandler {
     	//System.out.println("Disease Changed " + side.name() + " " + this.living.getEntityName() + " " + this.living.entityId);
     	if(living instanceof EntityPlayer)
     	{
-    		Player player = (Player)this.living;
-    		EntityPacketHandler.onChangedDisease(par1Disease, player);
+    		if(side.isClient() && !(living instanceof EntityOtherPlayerMP))
+    		{
+    			Player player = (Player)this.living;
+    			EntityPacketHandler.onChangedDisease(par1Disease, player);
+    		}
+    		else if(side.isServer())
+    		{
+    			Player player = (Player)this.living;
+    			EntityPacketHandler.onChangedDisease(par1Disease, player);
+    		}
     	}        
     }
     /**
@@ -162,8 +171,16 @@ public class EntityDiseaseHandler {
     	//System.out.println("New Disease " + side.name() + " " + this.living.getEntityName() + " " + this.living.entityId);
     	if(living instanceof EntityPlayer)
     	{
-    		Player player = (Player)this.living;
-    		EntityPacketHandler.onNewDisease(par1Disease, player);
+    		if(side.isClient() && !(living instanceof EntityOtherPlayerMP))
+    		{
+    			Player player = (Player)this.living;
+    			EntityPacketHandler.onNewDisease(par1Disease, player);
+    		}
+    		else if(side.isServer())
+    		{
+    			Player player = (Player)this.living;
+    			EntityPacketHandler.onNewDisease(par1Disease, player);
+    		}
     	}
     }
     
@@ -192,11 +209,20 @@ public class EntityDiseaseHandler {
      */
     protected void onFinishedDisease(Disease par1Disease)
     {
+    	Side side = FMLCommonHandler.instance().getEffectiveSide();
     	//System.out.println("Disease Finished");
     	if(living instanceof Player)
     	{
-    		Player player = (Player)this.living;
-    		EntityPacketHandler.onFinishedDisease(par1Disease, player);
+    		if(side.isClient() && !(living instanceof EntityOtherPlayerMP))
+    		{
+    			Player player = (Player)this.living;
+    			EntityPacketHandler.onFinishedDisease(par1Disease, player);
+    		}
+    		else if(side.isServer())
+    		{
+    			Player player = (Player)this.living;
+    			EntityPacketHandler.onFinishedDisease(par1Disease, player);
+    		}
     	}
     }
     /**
@@ -338,29 +364,53 @@ public class EntityDiseaseHandler {
 	}
     private void onFinishedSideEffect(DiseaseEffect effect)
     {
-    	System.out.println(effect.getClass().getName() + " Removed");
+    	Side side = FMLCommonHandler.instance().getEffectiveSide();
     	if(living instanceof Player)
     	{
-    		Player player = (Player)this.living;
-    		EntityPacketHandler.onFinishedSideEffect(effect, player);
+    		if(side.isClient() && !(living instanceof EntityOtherPlayerMP))
+    		{
+    			Player player = (Player)this.living;
+    			EntityPacketHandler.onFinishedSideEffect(effect, player);
+    		}
+    		else if(side.isServer())
+    		{
+    			Player player = (Player)this.living;
+    			EntityPacketHandler.onFinishedSideEffect(effect, player);
+    		}
     	}
     }
     private void onChangedSideEffect(DiseaseEffect effect)
     {
-    	System.out.println(effect.getClass().getName() + " Changed");
+    	Side side = FMLCommonHandler.instance().getEffectiveSide();
     	if(living instanceof EntityPlayer)
     	{
-    		Player player = (Player)this.living;
-    		EntityPacketHandler.onChangedSideEffect(effect, player);
+    		if(side.isClient() && !(living instanceof EntityOtherPlayerMP))
+    		{
+    			Player player = (Player)this.living;
+    			EntityPacketHandler.onChangedSideEffect(effect, player);
+    		}
+    		else if(side.isServer())
+    		{
+    			Player player = (Player)this.living;
+    			EntityPacketHandler.onChangedSideEffect(effect, player);
+    		}
     	}
     }
     private void onNewSideEffect(DiseaseEffect effect)
     {
-    	System.out.println("New " + effect.getClass().getName());
+    	Side side = FMLCommonHandler.instance().getEffectiveSide();
     	if(living instanceof EntityPlayer)
     	{
-    		Player player = (Player)this.living;
-    		EntityPacketHandler.onNewSideEffect(effect, player);
+    		if(side.isClient() && !(living instanceof EntityOtherPlayerMP))
+    		{
+    			Player player = (Player)this.living;
+    			EntityPacketHandler.onNewSideEffect(effect, player);
+    		}
+    		else if(side.isServer())
+    		{
+    			Player player = (Player)this.living;
+    			EntityPacketHandler.onNewSideEffect(effect, player);
+    		}
     	}
     }
     public void removeSideEffectClient(int par1)

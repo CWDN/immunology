@@ -38,10 +38,10 @@ import net.minecraft.util.StringUtils;
 public class Disease {
 	
 	/** The array of disease types. */
-    public static final Disease[] diseaseTypes = new Disease[32];
+    public static final Disease[] diseaseTypes = new Disease[4];
     public static final Disease commonCold = new DiseaseCommonCold(0, 168000, Arrays.asList(0,1,4,7), "Common Cold", true);
     public static final Disease chickenPox = new DiseaseChickenPox(1, 504000, Arrays.asList(2, 7), "Chicken Pox", true);
-    public static final Disease influenza = new DiseaseInfluenza(2, 72000, 0, Arrays.asList(1,3,4,5,6,7), "Influenza", true);
+    public static final Disease influenza = new DiseaseInfluenza(2, 72000, 0, Arrays.asList(1,3,4,6,7), "Influenza", true);
     public static final Disease measles = new DiseaseMeasles(3, 72000, 0, Arrays.asList(1,7), "Measles", true);
     public List<Integer> DiseaseEffects = new ArrayList<Integer>();
 	/** ID value of this disease*/

@@ -38,17 +38,6 @@ public class ItemDisease extends Item{
     {
 		if (!par2World.isRemote)
         {
-			int count = 0;
-			Iterator i = Immunology.loadedEntityList.values().iterator();
-			while(i.hasNext())
-			{
-				EntityDiseaseHandler hand = (EntityDiseaseHandler) i.next();
-				count++;
-				if(hand != null && hand.living instanceof EntityPlayer)
-				{
-					System.out.println(hand.living.entityId );
-				}
-			}
 			if(Immunology.loadedEntityList.containsKey(par3EntityPlayer.hashCode()))
 			{
 				EntityDiseaseHandler hand = (EntityDiseaseHandler)Immunology.loadedEntityList.get(par3EntityPlayer.hashCode());

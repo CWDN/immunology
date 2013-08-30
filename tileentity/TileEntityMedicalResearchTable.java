@@ -16,6 +16,7 @@ import piefarmer.immunology.common.Immunology;
 import piefarmer.immunology.disease.Disease;
 import piefarmer.immunology.gui.MedicalResearchTableRecipes;
 import piefarmer.immunology.item.ItemCure;
+import piefarmer.immunology.item.ItemMedicalBook;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -35,7 +36,7 @@ import net.minecraftforge.event.brewing.PotionBrewedEvent;
 
 public class TileEntityMedicalResearchTable extends TileEntity implements ISidedInventory{
 
-	private ItemStack itemstacks[];
+	public ItemStack itemstacks[];
 	private boolean isActive;
 	public String entityname = ""; 
 	public HashMap entityDiseases = new HashMap();
@@ -279,7 +280,7 @@ public class TileEntityMedicalResearchTable extends TileEntity implements ISided
         {
 			ItemStack itemstack = this.itemstacks[i + 4];
             ItemStack itemstack2 = this.itemstacks[i + 8];
-            if (this.itemstacks[i] != null && this.itemstacks[i].getItem() instanceof ItemCure || this.itemstacks[i] != null && this.itemstacks[i].getItem() instanceof ItemPotion)
+            if (this.itemstacks[i] != null && this.itemstacks[i].getItem() instanceof ItemPotion)
             {
             	ItemStack is = MedicalResearchTableRecipes.brewing().getBrewingResult(itemstack, itemstack2);
             	if(is != null)
@@ -289,6 +290,14 @@ public class TileEntityMedicalResearchTable extends TileEntity implements ISided
             			is.stackSize++;
             		}
             		this.itemstacks[i] = is;
+            		if(this.itemstacks[12].getItem() instanceof ItemMedicalBook)
+            		{
+            			if(itemstack.itemID != Immunology.cure.itemID)
+            			{
+            				ItemMedicalBook book = (ItemMedicalBook)this.itemstacks[12].getItem();
+            				book.setCurePages(this.itemstacks[12], is.getItemDamage() - 1);
+            			}
+            		}
             		
             	}
                     

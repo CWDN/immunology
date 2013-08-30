@@ -6,6 +6,8 @@
 
 package piefarmer.immunology.model;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -222,34 +224,77 @@ public class ModelBadger extends ModelBase
   {
     super.render(entity, f, f1, f2, f3, f4, f5);
     setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-    Head.render(f5);
-    Nose_middle.render(f5);
-    Nose_Right.render(f5);
-    Nose_Left.render(f5);
-    Nose_tip.render(f5);
-    Nose_Top.render(f5);
-    Eye_right.render(f5);
-    Eye_Left.render(f5);
-    Ear_Right.render(f5);
-    Ear_Left.render(f5);
-    Body.render(f5);
-    Upper_Body_Left.render(f5);
-    Upper_Body_Right.render(f5);
-    Lower_Body.render(f5);
-    FL_Leg_Top.render(f5);
-    FL_Leg_Bot.render(f5);
-    FL_Foot.render(f5);
-    FR_Leg_Top.render(f5);
-    FR_Leg_Bot.render(f5);
-    FR_Foot.render(f5);
-    BR_Leg_Top.render(f5);
-    BR_Leg_Bot.render(f5);
-    BR_Foot.render(f5);
-    BL_Leg_Top.render(f5);
-    BL_Leg_Bot.render(f5);
-    BL_Foot.render(f5);
-    Tail_Top.render(f5);
-    Tail_Bot.render(f5);
+    if (this.isChild)
+    {
+        float f6 = 2.0F;
+        GL11.glPushMatrix();
+        GL11.glTranslatef(0.0F, 10.4F * f5, 1.0F * f5);
+        GL11.glScalef(1.0F / 1.65F, 1.0F / 1.65F, 1.0F / 1.65F);
+        Head.render(f5);
+    	Nose_middle.render(f5);
+    	Nose_Right.render(f5);
+    	Nose_Left.render(f5);
+    	Nose_tip.render(f5);
+    	Nose_Top.render(f5);
+    	Eye_right.render(f5);
+    	Eye_Left.render(f5);
+    	Ear_Right.render(f5);
+    	Ear_Left.render(f5);
+        GL11.glPopMatrix();
+        GL11.glPushMatrix();
+        GL11.glScalef(1.0F / f6, 1.0F / f6, 1.0F / f6);
+        GL11.glTranslatef(0.0F, 24.0F * f5, 0.0F);
+        Body.render(f5);
+    	Upper_Body_Left.render(f5);
+    	Upper_Body_Right.render(f5);
+    	Lower_Body.render(f5);
+    	FL_Leg_Top.render(f5);
+	    FL_Leg_Bot.render(f5);
+	    FL_Foot.render(f5);
+	    FR_Leg_Top.render(f5);
+	    FR_Leg_Bot.render(f5);
+	    FR_Foot.render(f5);
+	    BR_Leg_Top.render(f5);
+	    BR_Leg_Bot.render(f5);
+	    BR_Foot.render(f5);
+	    BL_Leg_Top.render(f5);
+	    BL_Leg_Bot.render(f5);
+	    BL_Foot.render(f5);
+	    Tail_Top.render(f5);
+	    Tail_Bot.render(f5);
+        GL11.glPopMatrix();
+    }
+    else
+    {
+    	Head.render(f5);
+    	Nose_middle.render(f5);
+    	Nose_Right.render(f5);
+    	Nose_Left.render(f5);
+    	Nose_tip.render(f5);
+    	Nose_Top.render(f5);
+    	Eye_right.render(f5);
+    	Eye_Left.render(f5);
+    	Ear_Right.render(f5);
+    	Ear_Left.render(f5);
+    	Body.render(f5);
+    	Upper_Body_Left.render(f5);
+    	Upper_Body_Right.render(f5);
+    	Lower_Body.render(f5);
+    	FL_Leg_Top.render(f5);
+	    FL_Leg_Bot.render(f5);
+	    FL_Foot.render(f5);
+	    FR_Leg_Top.render(f5);
+	    FR_Leg_Bot.render(f5);
+	    FR_Foot.render(f5);
+	    BR_Leg_Top.render(f5);
+	    BR_Leg_Bot.render(f5);
+	    BR_Foot.render(f5);
+	    BL_Leg_Top.render(f5);
+	    BL_Leg_Bot.render(f5);
+	    BL_Foot.render(f5);
+	    Tail_Top.render(f5);
+	    Tail_Bot.render(f5);
+    }
   }
   
   private void setRotation(ModelRenderer model, float x, float y, float z)

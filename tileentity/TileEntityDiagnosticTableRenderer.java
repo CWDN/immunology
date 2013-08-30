@@ -23,9 +23,11 @@ public class TileEntityDiagnosticTableRenderer extends TileEntitySpecialRenderer
 		{
 			rotation = var1.getBlockMetadata();
 		}
-
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		bindTextureByName("/mods/Immunology/textures/models/diagnostictable.png");
 		GL11.glPushMatrix();
+		
 		GL11.glTranslatef((float)var2 + 0.5F, (float)var4 + 1.5F, (float)var6 + 0.5F);
 		if(rotation == 0 || rotation == 2)
 		{
@@ -38,6 +40,7 @@ public class TileEntityDiagnosticTableRenderer extends TileEntitySpecialRenderer
 		GL11.glScalef(1.0F, -1F, -1F);
 		model.renderAll();
 		GL11.glPopMatrix();
+		//GL11.glDisable(GL11.GL_BLEND);
 	}
 
 	public void renderTileEntityAt(TileEntity var1, double var2, double var4,

@@ -1,7 +1,10 @@
 package piefarmer.immunology.gui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
@@ -68,71 +71,64 @@ public class InventoryDiseaseEffectRenderer extends GuiScreen
 			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(this.mc.thePlayer.hashCode());
 			if(hand != null)
 			{
-			    Collection var4 = hand.getActiveDiseases();
+				List var4 = new ArrayList();
+			    int[] effects = hand.getDiseaseEffects();
+			    for(int i = 0; i < effects.length; i++)
+			    {
+			    	if(effects[i] > 0 && effects[i] != 8)
+			    	{
+			    		var4.add(effects[i]);
+			    	}
+			    }
+			    if(!hand.getActiveSideEffects().isEmpty())
+		        {
+			    	Iterator var20 = hand.getActiveSideEffects().iterator();
+		        	while(var20.hasNext())
+		        	{
+		        		DiseaseEffect effect = (DiseaseEffect)var20.next();
+		        		if(!var4.contains(effect.getDiseaseEffectID() +1 ))
+		        		{
+		        			var4.add(effect.getDiseaseEffectID() + 1);
+		        		}
+		        	}
+		        }
 			    int var1 = guiLeft;
 			    int var2 = guiTop - 33;
 			    
-			    if (!var4.isEmpty())
+			    if (var4.size() > 0)
 			    {
 			        String var5 = "/mods/Immunology/textures/gui/Inventory.png";
+			        
 			        this.mc.renderEngine.bindTexture(var5);
 			        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			        GL11.glDisable(GL11.GL_LIGHTING);
 			        int var6 = 33;
-			        this.drawTexturedModalRect(var1, var2, 0, 0, 140, 32);
-		
-			        if (var4.size() > 5)
+			        Iterator var20 = var4.iterator();
+			        while(var20.hasNext())
 			        {
-			           var6 = 132 / (var4.size() - 1);
-			        }
-			        for (Iterator var7 = hand.getActiveDiseases().iterator(); var7.hasNext(); var1 += var6)
-			        {
-			        	Disease var8 = (Disease)var7.next();
-		                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		                this.mc.renderEngine.bindTexture(var5);
-		                this.drawTexturedModalRect(var1, var2, 0, 0, 32, 32);
-		                this.mc.renderEngine.bindTexture("/mods/Immunology/textures/gui/diseases.png");
-		                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		    	        GL11.glDisable(GL11.GL_LIGHTING);
-		               if (var8.hasStatusIcon())
-		                {
-		                    int var10 = var8.getStatusIconIndex();
-		                    this.drawTexturedModalRect(var1 + 7, var2 + 4, 16 * var10, 0, 16, 16);
-		                }
-		               
-		                String var12 = "I";
-		
-		                if (var8.getStage() == 1)
-		                {
-		                    var12 = var12 + " II";
-		                }
-		                else if (var8.getStage() == 2)
-		                {
-		                    var12 = var12 + " III";
-		                }
-		                else if (var8.getStage() == 3)
-		                {
-		                    var12 = var12 + " IV";
-		                }
-		                String var11 = Disease.getDurationString(var8);
-		                this.fontRenderer.drawStringWithShadow(var11, (var1 + var11.length()) - 3, var2 - 8, 16777215);
-		                
-		                this.fontRenderer.drawStringWithShadow(var12, var1 + 13 - var8.getStage(), var2 + 22, 0xFFFFFF);
-		
-		               
+			        	int effectid = (Integer) var20.next();
+			        	effectid--;
+			        	if(effectid != 7)
+			        	{
+			        		DiseaseEffect var8 = DiseaseEffect.diseaseEffects[effectid];
+			                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+			                this.mc.renderEngine.bindTexture(var5);
+			                this.drawTexturedModalRect(var1, var2, 0, 0, 32, 32);
+			                GL11.glEnable(GL11.GL_BLEND);
+			        		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			                String fileloc = "/mods/Immunology/textures/gui/effects/" + var8.getName() + ".png";
+			                GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(fileloc));
+			                GL11.glScalef(0.0625F, 0.0625F, 0.0625F);
+				            this.drawTexturedModalRect((var1 + 7) * 16, (var2 + 5) * 16, 0, 0, 256, 256);
+				            GL11.glScalef(16F, 16F, 16F);
+			                GL11.glScalef(0.5F, 0.5F, 0.5F);
+			                this.drawCenteredString(this.fontRenderer, var8.getName(), var1 * 2 + 31, var2 * 2 + 51, 0xFFFFFF);
+			                GL11.glScalef(2F, 2F, 2F);
+			                var1 += var6;
+			                
+			        	}
 			        }
 			    }
-		        int var21 = 0;
-		        int var22 = 10;
-			    if(!hand.getActiveSideEffects().isEmpty())
-		        {
-		        	for (Iterator var20 = hand.getActiveSideEffects().iterator(); var20.hasNext(); var21 += var22)
-		        	{
-		        		DiseaseEffect effect = (DiseaseEffect)var20.next();
-		        		this.fontRenderer.drawStringWithShadow(effect.diseaseEffects[effect.getDiseaseEffectID()].getClass().getName(), 50, var21, 0xffffff);
-		        		this.fontRenderer.drawStringWithShadow(StringUtils.ticksToElapsedTime(effect.getDuration()) + "", 300, var21, 0xffffff);
-		        	}
-		        }
 			}
 		}
 	}

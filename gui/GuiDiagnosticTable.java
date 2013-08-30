@@ -1,19 +1,26 @@
 package piefarmer.immunology.gui;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
+
 import piefarmer.immunology.common.Immunology;
 import piefarmer.immunology.disease.Disease;
 import piefarmer.immunology.entity.EntityDiseaseHandler;
+import piefarmer.immunology.item.ItemMedicalBook;
+import piefarmer.immunology.network.packet.Packet7Book;
 import piefarmer.immunology.tileentity.TileEntityDiagnosticTable;
 import piefarmer.immunology.tileentity.TileEntityMedicalResearchTable;
 import piefarmer.immunology.xml.XMLReader;
@@ -187,8 +194,12 @@ public class GuiDiagnosticTable extends GuiScreen{
 					Disease var2 = this.Entitydiseases.get(i);
 					Disease disease = Disease.diseaseTypes[var2.getdiseaseID()];
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-					mc.renderEngine.bindTexture("/mods/Immunology/textures/gui/diseases.png");
-					drawTexturedModalRect(posX + 22, posY + 44 + (29 * count), 16 * disease.getStatusIconIndex(), 0, 17, 17 );
+					GL11.glEnable(GL11.GL_BLEND);
+	        		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+					mc.renderEngine.bindTexture("/mods/Immunology/textures/gui/diseases/"+ disease.getName()+ ".png");
+					GL11.glScalef(0.0625F, 0.0625F, 0.0625F);
+		            this.drawTexturedModalRect((posX + 22) * 16, (posY + 44 + (29 * count)) * 16, 0, 0, 256, 256);
+		            GL11.glScalef(16F, 16F, 16F);
 					int colour = 0xffffff;
 					colour = this.getColour(disease.getdiseaseID());
     				this.drawCenteredString(fontRenderer, disease.getName(), posX + 85, posY + 49 + (29 * count), colour);
@@ -207,8 +218,12 @@ public class GuiDiagnosticTable extends GuiScreen{
 		if(disease != null)
 		{
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			mc.renderEngine.bindTexture("/mods/Immunology/textures/gui/diseases.png");
-			drawTexturedModalRect(posX + 22, posY + 44, 16 * disease.getStatusIconIndex(), 0, 17, 17 );
+			GL11.glEnable(GL11.GL_BLEND);
+    		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			mc.renderEngine.bindTexture("/mods/Immunology/textures/gui/diseases/"+ disease.getName()+ ".png");
+			GL11.glScalef(0.0625F, 0.0625F, 0.0625F);
+            this.drawTexturedModalRect((posX + 22) * 16, (posY + 44) * 16, 0, 0, 256, 256);
+            GL11.glScalef(16F, 16F, 16F);
 			this.drawCenteredString(fontRenderer, disease.getName(), posX + 85, posY + 49, this.getColour(disease.getdiseaseID()));
 			int lineLength = 26;
 			
@@ -220,13 +235,13 @@ public class GuiDiagnosticTable extends GuiScreen{
 				int line = 0;
 				while(endIndex != description.length())
 				{
-					if(description.length() > 26)
+					if(description.length() > lineLength)
 					{
 						char ch = 0;
 						int backtrack = 0;
 						while(ch != ' ')
 						{
-							int charend = 26;
+							int charend = lineLength;
 							if(charend > description.length())
 							{
 								charend = description.length() - 1;
@@ -234,7 +249,7 @@ public class GuiDiagnosticTable extends GuiScreen{
 							ch = description.charAt(charend - backtrack);
 							backtrack++;
 						}
-						endIndex = 26 - backtrack;
+						endIndex = lineLength - backtrack;
 						if(endIndex > description.length())
 						{
 							endIndex = description.length() -1;
@@ -246,7 +261,7 @@ public class GuiDiagnosticTable extends GuiScreen{
 						endIndex = description.length() -1;
 					}
 					this.drawString(fontRenderer, description.substring(0, endIndex + 1), posX + 21, posY + 64 + (line * fontRenderer.FONT_HEIGHT), 0xaaaaaa);
-					if(description.length() > 26)
+					if(description.length() > lineLength)
 					{
 						description = description.substring(endIndex + 2, description.length());
 					}else{
@@ -277,6 +292,29 @@ public class GuiDiagnosticTable extends GuiScreen{
 				float size = this.Entitydiseases.size();
 				this.tile.setEntityName(entityplayer.username, entityplayer, this.Entitydiseases);
 				this.pageSetup(size);
+				Iterator iter = this.Entitydiseases.iterator();
+				if(this.entityplayer.inventory.hasItem(Immunology.medicalBook.itemID))
+				{
+					int slot = 0;
+					ItemStack[] is = this.entityplayer.inventory.mainInventory;
+					for(slot = 0; slot < is.length; slot++)
+					{
+						ItemStack it = this.entityplayer.inventory.getStackInSlot(slot);
+						if(it != null && it.getItem() instanceof ItemMedicalBook)
+						{
+							ItemMedicalBook book = (ItemMedicalBook) it.getItem();
+							List<Integer> ids = new ArrayList<Integer>();
+							while(iter.hasNext())
+							{
+								Disease di = (Disease) iter.next();
+								book.setDiseasePages(it, di.getdiseaseID());
+								ids.add(di.getdiseaseID());
+							}
+							this.entityplayer.inventory.setInventorySlotContents(slot, it);
+							PacketDispatcher.sendPacketToServer(new Packet7Book(slot, ids).makePacket());
+						}
+					}
+				}
 			}
 		}
 	}

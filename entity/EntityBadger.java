@@ -1,36 +1,56 @@
 package piefarmer.immunology.entity;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
+import net.minecraft.entity.ai.EntityAIFollowParent;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityBadger extends EntityMob{
+public class EntityBadger extends EntityAnimal{
 
 	public EntityBadger(World par1World) {
 		super(par1World);
 		texture = "/mods/Immunology/textures/models/badger.png";
-		this.moveSpeed = 0.3F;
+		this.setSize(0.3F, 0.5F);
+        this.moveSpeed = 0.3F;
 		this.getNavigator().setAvoidsWater(false);
 		this.getNavigator().setCanSwim(true);
 		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(6, new EntityAIWander(this, this.moveSpeed));
-		this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, this.moveSpeed, false));
-        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, EntityVillager.class, this.moveSpeed, true));
-        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(7, new EntityAILookIdle(this));
+		this.tasks.addTask(1, new EntityAIWander(this, this.moveSpeed));
+		this.tasks.addTask(2, new EntityAILeapAtTarget(this, 0.4F));
+		this.tasks.addTask(3, new EntityAIAttackOnCollide(this, this.moveSpeed, true));
+		this.tasks.addTask(4, new EntityAIMate(this, this.moveSpeed));
+        this.tasks.addTask(5, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(6, new EntityAILookIdle(this));
+        this.tasks.addTask(7, new EntityAIFollowParent(this, 0.28F));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 	}
-
+	public float getEyeHeight()
+    {
+        return this.height * 0.8F;
+    }
+	public boolean isBreedingItem(ItemStack par1ItemStack)
+    {
+        return par1ItemStack.itemID == Item.melon.itemID;
+    }
 	@Override
 	public int getMaxHealth() {
 		return 10;
@@ -46,8 +66,7 @@ public class EntityBadger extends EntityMob{
 	@Override
     protected String getLivingSound()
     {
-		return null;
-       // return "piefarmer.immunology.badgerliving";
+       return "mob.wolf.growl";
     }
 
     /**
@@ -96,37 +115,29 @@ public class EntityBadger extends EntityMob{
     	super.readEntityFromNBT(compound);
     	if (compound.getBoolean("IsBaby"))
         {
-            
+            //this.isChild() = compound.getBoolean("IsBaby");
         }
     }
-    @Override
-    protected void attackEntity(Entity par1Entity, float par2)
+    public EntityBadger spawnBabyAnimal(EntityAgeable par1EntityAgeable)
     {
-        float f1 = this.getBrightness(1.0F);
+        return new EntityBadger(this.worldObj);
+    }
 
-        if (f1 > 0.5F && this.rand.nextInt(100) == 0)
-        {
-            this.entityToAttack = null;
-        }
-        else
-        {
-            if (par2 > 2.0F && par2 < 6.0F && this.rand.nextInt(10) == 0)
-            {
-                if (this.onGround)
-                {
-                    double d0 = par1Entity.posX - this.posX;
-                    double d1 = par1Entity.posZ - this.posZ;
-                    float f2 = MathHelper.sqrt_double(d0 * d0 + d1 * d1);
-                    this.motionX = d0 / (double)f2 * 0.5D * 0.800000011920929D + this.motionX * 0.20000000298023224D;
-                    this.motionZ = d1 / (double)f2 * 0.5D * 0.800000011920929D + this.motionZ * 0.20000000298023224D;
-                    this.motionY = 0.4000000059604645D;
-                }
-            }
-            else
-            {
-                super.attackEntity(par1Entity, par2);
-            }
-        }
+    public EntityAgeable createChild(EntityAgeable par1EntityAgeable)
+    {
+        return this.spawnBabyAnimal(par1EntityAgeable);
+    }
+    protected float getSoundVolume()
+    {
+        return 0.4F;
+    }
+    public void setAttackTarget(EntityLiving par1EntityLiving)
+    {
+        super.setAttackTarget(par1EntityLiving);
+    }
+    public boolean attackEntityAsMob(Entity par1Entity)
+    {
+        return par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), 4);
     }
     
 

@@ -17,11 +17,14 @@ public class ItemEffect extends Item{
 	}
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
-		if (par2World.isRemote)
+		if (!par2World.isRemote)
         {
-			EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par3EntityPlayer.hashCode());
-			hand.addSideEffect(DiseaseEffect.sneeze);
-			hand.addSideEffect(DiseaseEffect.chills);
+			if(Immunology.loadedEntityList.containsKey(par3EntityPlayer.hashCode()))
+			{
+				EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(par3EntityPlayer.hashCode());
+				hand.addSideEffect(DiseaseEffect.sneeze);
+				hand.addSideEffect(DiseaseEffect.chills);
+			}
         }
 		return par1ItemStack;
     }

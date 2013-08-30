@@ -45,7 +45,7 @@ public class XMLReader {
 		{
 			System.out.println(ex.getMessage());
 		}
-		return "Couldn't Retrieve Description";
+		return "Not researched disease.";
 		
 	}
 
