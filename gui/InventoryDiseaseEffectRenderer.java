@@ -114,10 +114,8 @@ public class InventoryDiseaseEffectRenderer extends GuiScreen
 			                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			                this.mc.renderEngine.bindTexture(var5);
 			                this.drawTexturedModalRect(var1, var2, 0, 0, 32, 32);
-			                GL11.glEnable(GL11.GL_BLEND);
-			        		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			                String fileloc = "/mods/Immunology/textures/gui/effects/" + var8.getName() + ".png";
-			                GL11.glBindTexture(GL11.GL_TEXTURE_2D, mc.renderEngine.getTexture(fileloc));
+			                this.mc.renderEngine.bindTexture(fileloc);
 			                GL11.glScalef(0.0625F, 0.0625F, 0.0625F);
 				            this.drawTexturedModalRect((var1 + 7) * 16, (var2 + 5) * 16, 0, 0, 256, 256);
 				            GL11.glScalef(16F, 16F, 16F);

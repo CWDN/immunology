@@ -234,7 +234,7 @@ public class Immunology {
 		GameRegistry.addRecipe(new ItemStack(this.hangGlider, 1), new Object[]{
 			" S ",
 			"SLS",
-			"SSS",
+			"SLS",
 			'S', Item.stick,
 			'L', Item.leather});
 		GameRegistry.addRecipe(new ItemStack(this.medicalBook, 1), new Object[]{

@@ -24,7 +24,7 @@ public class DiseaseEffect {
 	private int stageEnd;
 	private int duration = 3000;
 	private String name;
-	public static final DiseaseEffect[] diseaseEffects = new DiseaseEffect[64];
+	public static final DiseaseEffect[] diseaseEffects = new DiseaseEffect[8];
 	public static DiseaseEffect sneeze = new EffectSneeze(0, 0, 0, "Sneeze");
 	public static DiseaseEffect sniff = new EffectSniff(1, 0, 0, "Sniff");
 	public static DiseaseEffect chickenSpots = new EffectSpots(2, 1, 1, "Spots");

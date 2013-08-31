@@ -29,12 +29,17 @@ public class GuiMedicalBook extends GuiScreen{
 	int page = 0;
 	List<Integer> diseasepagesFound = new ArrayList<Integer>();
 	List<Integer> curepagesFound = new ArrayList<Integer>();
+	List<Integer> sideeffectpagesFound = new ArrayList<Integer>();
+	int cureid = 1;
+	int counter = 0;
 	public GuiMedicalBook(ItemStack is)
 	{
 		ItemMedicalBook iBook = (ItemMedicalBook) is.getItem();
 		diseasepagesFound = iBook.getDiseasePages(is);
 		curepagesFound = iBook.getCurePages(is);
+		sideeffectpagesFound = iBook.getSidePages(is);
 	}
+	@Override
 	public void initGui()
 	{
 		posX = this.width / 2;
@@ -42,6 +47,7 @@ public class GuiMedicalBook extends GuiScreen{
 		this.buttonList.add(new GuiButtonNextBookPage(0, posX + 110, posY + 60, true));
 		this.buttonList.add(new GuiButtonNextBookPage(1, posX - 140, posY + 60, false));
 	}
+	@Override
 	public void drawScreen(int par1, int par2, float par3)
     {
 		this.drawDefaultBackground();
@@ -52,71 +58,76 @@ public class GuiMedicalBook extends GuiScreen{
 		this.drawTexturedModalRect(posX, posY - (176 /2), 0, 0, 161, 176);
 		this.mc.renderEngine.bindTexture("/mods/Immunology/textures/gui/medicalbookleft.png");
 		this.drawTexturedModalRect(posX - 168, posY - (176 /2), 0, 0, 168, 176);
+		fontRenderer.drawString(Integer.toString(page), posX + 130, posY - 67, 0x111111);
 		fontRenderer.drawString("Description", posX - 140, posY - 70, 0x111111);
 		fontRenderer.drawString("Cure", posX + 40, posY - 70, 0x111111);
 		fontRenderer.drawString("Ingredients:", posX + 30, posY - 60, 0x111111);
-		if(this.diseasepagesFound.contains(page))
+		if(page < Disease.diseaseTypes.length)
 		{
-			this.writeDescription(Integer.toString(page));
+			
+			this.addDiseaseCurePage();
 		}
 		else
 		{
-			this.writeDescription(Integer.toString(-1));
-		}
-		if(this.curepagesFound.contains(page))
-		{
-			List<ItemStack> l = MedicalResearchTableRecipes.brewing().getIngredients(page + 1, false);
-			
-			if(l != null)
+			fontRenderer.drawString("Description - Side Effect", posX - 140, posY - 70, 0x111111);
+			if(this.sideeffectpagesFound.contains(page - Disease.diseaseTypes.length))
 			{
-				ItemStack is = l.get(0);
-				ItemStack is2 = l.get(1);
-				fontRenderer.drawString("- " + is.stackSize + " x     " + is.getDisplayName(), posX + 30, posY - 47, 0x111111);
-				fontRenderer.drawString("- " + is2.stackSize + " x     " + is2.getDisplayName(), posX + 30, posY - 31, 0x111111);
-				this.drawItemStack(is, posX + 58, posY - 52);
-				this.drawItemStack(is2, posX + 58, posY - 36);
+				this.writeDescription(Integer.toString(page - Disease.diseaseTypes.length), false);
+				List<ItemStack> l = MedicalResearchTableRecipes.brewing().getIngredients(page - Disease.diseaseTypes.length + 1, true);
 				
-				is = MedicalResearchTableRecipes.brewing().getBrewingResult(l.get(0), l.get(1));
-				fontRenderer.drawString("Side Effects", posX + 30, posY - 7, 0x111111);
-				
-				if(is != null)
+				if(l != null)
 				{
-					ItemCure cure = (ItemCure) is.getItem();
-					List li = cure.getEffects(is);
-					if(li != null)
-					{
-						for(int i = 0; i < li.size(); i++)
-						{
-							DiseaseEffect eff = (DiseaseEffect) li.get(i);
-							eff = DiseaseEffect.diseaseEffects[eff.getDiseaseEffectID()];
-							fontRenderer.drawString("- " +eff.getName(), posX + 30, posY + 8 + (10 * i), 0x111111);
-						}
-					}
-					else
-					{
-						fontRenderer.drawString("- None", posX + 30, posY + 8, 0x111111);
-					}
+					ItemStack is = new ItemStack(Immunology.cure, 1, cureid);
+					ItemStack is2 = l.get(1);
+					fontRenderer.drawString("- " + is.stackSize + " x     " + is.getDisplayName(), posX + 20, posY - 47, 0x111111);
+					fontRenderer.drawString("- " + is2.stackSize + " x     " + is2.getDisplayName(), posX + 20, posY - 31, 0x111111);
+					this.drawItemStack(is, posX + 48, posY - 52);
+					this.drawItemStack(is2, posX + 48, posY - 36);
 				}
+				else
+				{
+					fontRenderer.drawString("Not researched cure.", posX + 30, posY - 47, 0x111111);
+				}
+				counter++;
+				if(counter == 500)
+				{
+					if(cureid == Disease.diseaseTypes.length)
+					{
+						cureid = 0;
+					}
+					this.cureid++;
+					counter = 0;
+				}
+				
+			}
+			else
+			{
+				this.writeDescription(Integer.toString(-1), false);
+				fontRenderer.drawString("Not researched cure.", posX + 30, posY - 47, 0x111111);
 			}
 			
+			
 		}
-		else
-		{
-			fontRenderer.drawString("Not researched cure.", posX + 30, posY - 47, 0x111111);
-		}
-		
 		
 		super.drawScreen(par1, par2, par3);
 	}
+	@Override
 	public boolean doesGuiPauseGame()
     {
         return false;
     }
-	public void writeDescription(String id)
+	public void writeDescription(String id, boolean isDisease)
 	{
 		int lineLength = 21;
-		
-		String description = XMLReader.getDescriptionByDiseaseID(id);
+		String description;
+		if(isDisease)
+		{
+			description = XMLReader.getDescriptionByDiseaseID(id);
+		}
+		else
+		{
+			description = XMLReader.getDescriptionByDiseaseEffectID(id);
+		}
 		if(description.length() > lineLength)
 		{
 			int endIndex = 0;
@@ -160,7 +171,60 @@ public class GuiMedicalBook extends GuiScreen{
 		}
 		else
 		{
-			this.drawString(fontRenderer, description, posX + 21, posY + 66, 0xaaaaaa);
+			fontRenderer.drawString(description, posX - 135, posY - 56, 0x111111);
+		}
+	}
+	public void addDiseaseCurePage()
+	{
+		fontRenderer.drawString("Description - Disease", posX - 140, posY - 70, 0x111111);
+		if(this.diseasepagesFound.contains(page))
+		{
+			this.writeDescription(Integer.toString(page), true);
+		}
+		else
+		{
+			this.writeDescription(Integer.toString(-1), true);
+		}
+		if(this.curepagesFound.contains(page))
+		{
+			List<ItemStack> l = MedicalResearchTableRecipes.brewing().getIngredients(page + 1, false);
+			
+			if(l != null)
+			{
+				ItemStack is = l.get(0);
+				ItemStack is2 = l.get(1);
+				fontRenderer.drawString("- " + is.stackSize + " x     " + is.getDisplayName(), posX + 30, posY - 47, 0x111111);
+				fontRenderer.drawString("- " + is2.stackSize + " x     " + is2.getDisplayName(), posX + 30, posY - 31, 0x111111);
+				this.drawItemStack(is, posX + 58, posY - 52);
+				this.drawItemStack(is2, posX + 58, posY - 36);
+				
+				is = MedicalResearchTableRecipes.brewing().getBrewingResult(l.get(0), l.get(1));
+				fontRenderer.drawString("Side Effects", posX + 30, posY - 7, 0x111111);
+				
+				if(is != null)
+				{
+					ItemCure cure = (ItemCure) is.getItem();
+					List li = cure.getEffects(is);
+					if(li != null)
+					{
+						for(int i = 0; i < li.size(); i++)
+						{
+							DiseaseEffect eff = (DiseaseEffect) li.get(i);
+							eff = DiseaseEffect.diseaseEffects[eff.getDiseaseEffectID()];
+							fontRenderer.drawString("- " +eff.getName(), posX + 30, posY + 8 + (10 * i), 0x111111);
+						}
+					}
+					else
+					{
+						fontRenderer.drawString("- None", posX + 30, posY + 8, 0x111111);
+					}
+				}
+			}
+			
+		}
+		else
+		{
+			fontRenderer.drawString("Not researched cure.", posX + 30, posY - 47, 0x111111);
 		}
 	}
 	@Override
@@ -189,12 +253,13 @@ public class GuiMedicalBook extends GuiScreen{
         this.zLevel = 0.0F;
         itemRenderer.zLevel = 0.0F;
     }
+	@Override
 	public void actionPerformed(GuiButton but)
 	{
 		switch(but.id)
 		{
 			case 0:
-				if(page + 1 < Disease.diseaseTypes.length)
+				if(page + 1 < (Disease.diseaseTypes.length + DiseaseEffect.diseaseEffects.length - 1))
 				{
 					page += 1;
 				}

@@ -139,6 +139,10 @@ public class EntityBadger extends EntityAnimal{
     {
         return par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), 4);
     }
+    protected void attackEntity(Entity par1Entity, float par2)
+    {
+    	super.attackEntity(par1Entity, par2);
+    }
     
 
 }

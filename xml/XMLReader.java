@@ -9,10 +9,10 @@ public class XMLReader {
 		
 		Document xmlDoc = getDocument("./resources/immunology/diseases.xml");	
 		NodeList listofdiseases = xmlDoc.getElementsByTagName("disease");		
-		return getElement(listofdiseases, id);
+		return getDiseaseElement(listofdiseases, id);
 	}
 
-	private static String getElement(NodeList listofdiseases, String id) {
+	private static String getDiseaseElement(NodeList listofdiseases, String id) {
 		
 		try{
 			
@@ -46,6 +46,49 @@ public class XMLReader {
 			System.out.println(ex.getMessage());
 		}
 		return "Not researched disease.";
+		
+	}
+	public static String getDescriptionByDiseaseEffectID(String id){
+		
+		Document xmlDoc = getDocument("./resources/immunology/diseases.xml");	
+		NodeList listofdiseases = xmlDoc.getElementsByTagName("diseaseeffect");		
+		return getDiseaseEffectElement(listofdiseases, id);
+	}
+
+	private static String getDiseaseEffectElement(NodeList listofdiseases, String id) {
+		
+		try{
+			
+			for(int i = 0; i < listofdiseases.getLength(); i++)
+			{
+				Node diseaseNode = listofdiseases.item(i);
+				
+				Element diseaseElement = (Element)diseaseNode;
+				
+						
+				NodeList idList = diseaseElement.getElementsByTagName("diseaseeffectid");
+				
+				Element idElement = (Element)idList.item(0);
+				
+				NodeList elementList = idElement.getChildNodes();
+				
+				if(((Node)elementList.item(0)).getNodeValue().trim().equals(id))
+				{
+					NodeList desList = diseaseElement.getElementsByTagName("description");
+					
+					Element desElement = (Element)desList.item(0);
+					
+					elementList = desElement.getChildNodes();
+					return ((Node)elementList.item(0)).getNodeValue().trim();
+				}
+								
+			}
+		}
+		catch(Exception ex)
+		{
+			System.out.println(ex.getMessage());
+		}
+		return "Not researched side effect.";
 		
 	}
 

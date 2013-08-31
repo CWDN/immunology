@@ -39,13 +39,14 @@ public class MedicalResearchTableRecipes {
 	        this.addBrewing(Item.snowball.itemID, Arrays.asList(new ItemStack(Immunology.cure, 1, 1), new ItemStack(Item.slimeBall, 1)), 1.0F);
 	        this.addBrewing(Item.egg.itemID, Arrays.asList(ItemCure.setSideEffects(new ItemStack(Immunology.cure, 1, 2), Arrays.asList(2,5)), new ItemStack(Item.feather, 1)), 1.5F);
 	        this.addBrewing(Item.slimeBall.itemID, Arrays.asList(ItemCure.setSideEffects(new ItemStack(Immunology.cure, 1, 3), Arrays.asList(3, 5)), new ItemStack(Item.netherStalkSeeds, 1)), 3.0F);
+	        this.addBrewing(Item.clay.itemID, Arrays.asList(ItemCure.setSideEffects(new ItemStack(Immunology.cure, 1, 4), Arrays.asList(4)), new ItemStack(Item.reed, 1)), 1.5F);
 	        this.sideEffectsList.put(Arrays.asList(Item.paper.itemID, 0), 0);
 	        this.sideEffectsList.put(Arrays.asList(Item.slimeBall.itemID, 0), 1);
 	        this.sideEffectsList.put(Arrays.asList(Item.netherStalkSeeds.itemID, 0), 2);
 	        this.sideEffectsList.put(Arrays.asList(Item.blazePowder.itemID, 0), 3);
 	        this.sideEffectsList.put(Arrays.asList(Item.magmaCream.itemID, 0), 4);
 	        this.sideEffectsList.put(Arrays.asList(Item.bone.itemID, 0), 5);
-	        this.sideEffectsList.put(Arrays.asList(Item.leather.itemID, 0), 6);
+	        this.sideEffectsList.put(Arrays.asList(Item.snowball.itemID, 0), 6);
 	    }
 	    
 	    
@@ -111,9 +112,14 @@ public class MedicalResearchTableRecipes {
 	        {
 	        	ItemCure cure = (ItemCure) item.getItem();
 	        	List effects = cure.getEffects(item);
+	        	if(effects == null)
+	        	{
+	        		effects = new ArrayList<DiseaseEffect>();
+	        	}
+	        	
 	        	if(item2 != null)
 	        	{
-		        	Integer is = sideEffectsList.get(Arrays.asList(item2.itemID, item2.getItemDamage()));
+	        		Integer is = sideEffectsList.get(Arrays.asList(item2.itemID, item2.getItemDamage()));
 		        	for(int i = 0; i < effects.size(); i++)
 		        	{
 		        		DiseaseEffect eff = (DiseaseEffect) effects.get(i);
@@ -130,7 +136,7 @@ public class MedicalResearchTableRecipes {
 		        			return ItemCure.setSideEffects(new ItemStack(Immunology.cure.itemID, 1, item.getItemDamage()), list);
 		        		}
 		        	}
-		        	if(is != null)
+	        		if(is != null)
 		        	{
 		        		effects.add(new DiseaseEffect(DiseaseEffect.diseaseEffects[is]));
 		        		List<Integer> list = new ArrayList<Integer>();
@@ -142,10 +148,16 @@ public class MedicalResearchTableRecipes {
 	        			}
 		        		return ItemCure.setSideEffects(new ItemStack(Immunology.cure.itemID, 1, item.getItemDamage()), list);
 		        	}
+		        	
 	        	}
+	        	
 	        	
 	        }
 	        return null;
+	    }
+	    public int getDiseaseEffect(ItemStack is)
+	    {
+	    	return sideEffectsList.get(Arrays.asList(is.itemID, is.getItemDamage()));
 	    }
 
 	    /**

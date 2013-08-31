@@ -115,5 +115,46 @@ public class ItemMedicalBook extends Item{
         	return new ArrayList();
         }
     }
+	public ItemStack setSidePages(ItemStack is, int id)
+	{
+		NBTTagCompound nbtTagCompound = new NBTTagCompound();
+		NBTTagList nbtlist = new NBTTagList();
+		Iterator iterator = this.getSidePages(is).iterator();
+		while(iterator.hasNext())
+		{
+			int var1 = (Integer)iterator.next();
+			nbtTagCompound.setInteger("page", var1);
+	        nbtlist.appendTag(nbtTagCompound);
+	        nbtTagCompound = new NBTTagCompound();
+		}
+		nbtTagCompound.setInteger("page", id);
+        nbtlist.appendTag(nbtTagCompound);
+        nbtTagCompound = new NBTTagCompound();
+		if(nbtlist.tagCount() > 0)
+		{
+			is.setTagInfo("SidePages", nbtlist);
+		}
+		return is;
+	}
+	public List getSidePages(ItemStack par1ItemStack)
+    {
+        if (par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().hasKey("SidePages"))
+        {
+            ArrayList var6 = new ArrayList();
+            NBTTagList var3 = par1ItemStack.getTagCompound().getTagList("SidePages");
+
+            for (int var4 = 0; var4 < var3.tagCount(); ++var4)
+            {
+                NBTTagCompound var5 = (NBTTagCompound)var3.tagAt(var4);
+                var6.add(var5.getInteger("page"));
+            }
+
+            return var6;
+        }
+        else
+        {
+        	return new ArrayList();
+        }
+    }
 
 }

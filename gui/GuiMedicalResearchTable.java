@@ -13,7 +13,9 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 
+import piefarmer.immunology.common.Immunology;
 import piefarmer.immunology.disease.Disease;
+import piefarmer.immunology.disease.DiseaseEffect;
 import piefarmer.immunology.item.ItemMedicalBook;
 import piefarmer.immunology.network.packet.Packet6Cure;
 import piefarmer.immunology.tileentity.TileEntityMedicalResearchTable;
@@ -44,6 +46,8 @@ public class GuiMedicalResearchTable extends GuiContainer{
 	float count2;
 	float count3;
 	float count4;
+	int counter = 0;
+	int cureid = 1;
 	
 	public GuiMedicalResearchTable(InventoryPlayer player, TileEntityMedicalResearchTable tileentity)
 	{
@@ -114,10 +118,72 @@ public class GuiMedicalResearchTable extends GuiContainer{
         	ItemMedicalBook it = (ItemMedicalBook) is.getItem();
         	List dl = it.getDiseasePages(is);
         	List cl = it.getCurePages(is);
+        	List sl = it.getSidePages(is);
 	        immunfont.drawString("Total Known", posX + 259, posY + 52, 0x444444);
 	        immunfont.drawString("Diseases: " + dl.size(), posX + 259, posY + 62, 0x444444);
-	        immunfont.drawString("Total Found", posX + 259, posY + 96, 0x444444);
-	        immunfont.drawString("Cures: " + cl.size(), posX + 259, posY + 106, 0x444444);
+	        immunfont.drawString("Total Found", posX + 259, posY + 76, 0x444444);
+	        immunfont.drawString("Cures: " + cl.size(), posX + 259, posY + 86, 0x444444);
+	        immunfont.drawString("Total Found", posX + 259, posY + 100, 0x444444);
+	        immunfont.drawString("Modifiers: " + sl.size(), posX + 259, posY + 110, 0x444444);
+	        
+	        this.maxPages = cl.size() + sl.size();
+	        if(currentPage == 0 && sl.size() > 0 || currentPage == 0 && cl.size() > 0)
+			{
+				currentPage = 1;
+			}
+	        if(this.currentPage > cl.size())
+	        {
+	        	int id = (currentPage - cl.size()) - 1;
+	        	if(id > 0 || id >= 0 && sl.size() > 0)
+	        	{
+	        		fontRenderer.drawString(DiseaseEffect.diseaseEffects[(Integer) sl.get(id)].getName() + " Modifier", posX + 185, posY + 171, 0xaaaaaa);
+		        	List<ItemStack> l = MedicalResearchTableRecipes.brewing().getIngredients((Integer)sl.get(id) + 1, true);
+					
+					if(l != null)
+					{
+						
+						ItemStack is1 = new ItemStack(Immunology.cure, 1, cureid);
+						ItemStack is2 = l.get(1);
+						fontRenderer.drawString("- " + is1.stackSize + " x     " + is1.getDisplayName(), posX + 185, posY + 187, 0xaaaaaa);
+						fontRenderer.drawString("- " + is2.stackSize + " x     " + is2.getDisplayName(), posX + 185, posY + 203, 0xaaaaaa);
+						this.drawItemStack(is1, posX + 213, posY + 182);
+						this.drawItemStack(is2, posX + 213, posY + 198);
+						counter++;
+						if(counter == 500)
+						{
+							if(cureid == Disease.diseaseTypes.length)
+							{
+								cureid = 0;
+							}
+							this.cureid++;
+							counter = 0;
+						}
+					}
+	        	}
+	        	else
+	        	{
+	        		currentPage = 0;
+	        	}
+	        }
+	        else
+	        {
+	        	if(currentPage == 0 && cl.size() > 0)
+				{
+					currentPage = 1;
+				}
+	        	List<ItemStack> l = MedicalResearchTableRecipes.brewing().getIngredients(currentPage, false);
+				
+				if(l != null)
+				{
+					fontRenderer.drawString(Disease.diseaseTypes[currentPage - 1].getName() + " Cure", posX + 185, posY + 171, 0xaaaaaa);
+					ItemStack is1 = l.get(0);
+					ItemStack is2 = l.get(1);
+					fontRenderer.drawString("- " + is1.stackSize + " x     " + is1.getDisplayName(), posX + 185, posY + 187, 0xaaaaaa);
+					fontRenderer.drawString("- " + is2.stackSize + " x     " + is2.getDisplayName(), posX + 185, posY + 203, 0xaaaaaa);
+					this.drawItemStack(is1, posX + 213, posY + 182);
+					this.drawItemStack(is2, posX + 213, posY + 198);
+				}
+	        }
         }
         posX /= 2;
         posY /= 2;
@@ -173,12 +239,7 @@ public class GuiMedicalResearchTable extends GuiContainer{
 		{
 		case 0:
 			if(this.currentPage + 1 <= this.maxPages)
-				this.currentPage++;
-				
-				Side side = FMLCommonHandler.instance().getEffectiveSide();
-				tile.setItemStackSideEffects(Arrays.asList(0,1,1), 0);
-				PacketDispatcher.sendPacketToServer(new Packet6Cure(tile.xCoord, tile.yCoord, tile.zCoord, Arrays.asList(0,1,1), 0).makePacket());
-			
+				this.currentPage++;		
 			break;
 		case 1:
 			if(this.currentPage - 1 > 0)
@@ -246,6 +307,24 @@ public class GuiMedicalResearchTable extends GuiContainer{
 			tile.potioncolours[potion][2] = 1.0F;
 		}
 	}
+	private void drawItemStack(ItemStack par1ItemStack, int par2, int par3)
+    {
+        GL11.glTranslatef(0.0F, 0.0F, 32.0F);
+        this.zLevel = 200.0F;
+        itemRenderer.zLevel = 200.0F;
+        FontRenderer font = par1ItemStack.getItem().getFontRenderer(par1ItemStack);
+        if (font == null) font = fontRenderer;
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        itemRenderer.renderItemAndEffectIntoGUI(font, this.mc.renderEngine, par1ItemStack, par2, par3);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDepthMask(true);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        this.zLevel = 0.0F;
+        itemRenderer.zLevel = 0.0F;
+    }
 
 
 

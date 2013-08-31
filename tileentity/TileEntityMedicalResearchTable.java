@@ -292,10 +292,21 @@ public class TileEntityMedicalResearchTable extends TileEntity implements ISided
             		this.itemstacks[i] = is;
             		if(this.itemstacks[12].getItem() instanceof ItemMedicalBook)
             		{
+            			ItemMedicalBook book;
             			if(itemstack.itemID != Immunology.cure.itemID)
             			{
-            				ItemMedicalBook book = (ItemMedicalBook)this.itemstacks[12].getItem();
+            				book = (ItemMedicalBook)this.itemstacks[12].getItem();
             				book.setCurePages(this.itemstacks[12], is.getItemDamage() - 1);
+            			}
+            			else if(itemstack.itemID == Immunology.cure.itemID)
+            			{
+            				book = (ItemMedicalBook)this.itemstacks[12].getItem();
+            				if(!itemstack.equals(is))
+            				{	
+            					Integer effectid = MedicalResearchTableRecipes.brewing().getDiseaseEffect(itemstack2);
+            					book.setSidePages(this.itemstacks[12], effectid);
+            				}
+            				
             			}
             		}
             		
