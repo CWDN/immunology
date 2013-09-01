@@ -24,6 +24,7 @@ import javax.script.ScriptException;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IPlayerTracker;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -262,12 +263,11 @@ public class Immunology {
 		LanguageRegistry.instance().addStringLocalization("container.diagnostictable", "en_US", "Diagnostic Table");
 		LanguageRegistry.instance().addStringLocalization("item.emptyCure.name", "en_US", "Empty Cure");
 		LanguageRegistry.instance().addStringLocalization("entity.Badger.name", "en_US", "Badger");
-		
 	}
 	@PostInit
     public void modsLoaded(FMLPostInitializationEvent evt)
     {
-		Collection<Item> removeSet = new HashSet();
+		/*Collection<Item> removeSet = new HashSet();
 		Collections.addAll(removeSet, new Item[] { Item.bucketEmpty, Item.bow});
 		Iterator<IRecipe> iterator = CraftingManager.getInstance().getRecipeList().iterator();
 		while (iterator.hasNext())
@@ -278,7 +278,7 @@ public class Immunology {
 			ItemStack output = recipe.getRecipeOutput();
 			if(output != null && output.getItem() != null && removeSet.contains(output.getItem()))
 				iterator.remove();
-		}
+		}*/
 		
     }
 	

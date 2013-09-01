@@ -27,6 +27,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.src.ModLoader;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.event.ForgeSubscribe;
@@ -86,6 +87,22 @@ public class EventHook {
 	public void worldUnloadEvent(WorldEvent.Unload evt)
 	{
 		Immunology.loadedEntityList.clear();
+	}
+	@ForgeSubscribe
+	public void livingFallEvent(LivingFallEvent evt)
+	{
+		if(evt.entityLiving instanceof EntityPlayer)
+		{
+			EntityPlayer pl = (EntityPlayer)evt.entityLiving;
+			ItemStack is = pl.inventory.armorItemInSlot(2);
+			if(is != null && is.getItem().itemID == Immunology.hangGlider.itemID)
+			{
+				if(evt.isCancelable())
+				{
+					evt.setCanceled(true);
+				}
+			}
+		}
 	}
 	
 }
