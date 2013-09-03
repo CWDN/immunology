@@ -12,6 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import piefarmer.immunology.disease.Disease;
 import piefarmer.immunology.disease.DiseaseEffect;
 import piefarmer.immunology.entity.EntityDiseaseHandler;
+import piefarmer.immunology.lib.Names;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -107,8 +108,8 @@ public class ItemCure extends Item{
 	}
 	public void registerIcons(IconRegister par1)
 	{
-		this.itemIcon = par1.registerIcon(Immunology.modid + ":" + this.getUnlocalizedName());
-		this.curecontentsicon = par1.registerIcon("potion_contents");
+		this.itemIcon = par1.registerIcon(Immunology.modid + ":" + Names.cureItem_unlocalizedName);
+		this.curecontentsicon = par1.registerIcon(Immunology.modid + ":curecontents");
 	}
 	public Icon getIconFromDamageForRenderPass(int par1, int par2)
     {

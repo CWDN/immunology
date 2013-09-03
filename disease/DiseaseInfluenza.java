@@ -10,6 +10,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.src.ModLoader;
@@ -47,7 +48,7 @@ public class DiseaseInfluenza extends Disease{
 			hand.removeDisease(this.getdiseaseID());
 		}
 	}
-	public static void entityUpdate(EntityLiving entityliving)
+	public static void entityUpdate(EntityLivingBase entityliving)
 	{
 		if(DiseaseCommonCold.getBiomeTemperature(entityliving) > 50000)
 		{

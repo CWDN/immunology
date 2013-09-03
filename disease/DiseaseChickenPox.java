@@ -16,6 +16,7 @@ import piefarmer.immunology.entity.EntityDiseaseHandler;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -49,7 +50,7 @@ public class DiseaseChickenPox extends Disease{
 			}
 		}
 	}
-	public static void entityUpdate(EntityLiving entityliving){
+	public static void entityUpdate(EntityLivingBase entityliving){
 		if(entityliving instanceof EntityChicken)
 		{
 			Random rand = new Random();

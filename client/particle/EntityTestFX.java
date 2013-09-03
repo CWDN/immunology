@@ -51,7 +51,7 @@ public class EntityTestFX extends EntityFX
                 var8 = 1.0F;
         }
         //this.particleScale = this.particleScaleOverTime * var8;
-        GL11.glBindTexture(3553 /*GL_TEXTURE_2D*/, ModLoader.getMinecraftInstance().renderEngine.getTexture("/mods/Immunology/textures/particles/Test.png"));
+        //GL11.glBindTexture(3553 /*GL_TEXTURE_2D*/, ModLoader.getMinecraftInstance().renderEngine.getTexture("/mods/Immunology/textures/particles/Test.png"));
         //For the location of the texture X direction.
         float f0 = (float)(this.particleTextureIndexX % 16) / 16F;
         //For how big of the texture is used in X direction.
@@ -74,7 +74,7 @@ public class EntityTestFX extends EntityFX
         tessellator1.addVertexWithUV((f11 + par3 * f10) - par6 * f10, f12 - par4 * f10, (f13 + par5 * f10) - par7 * f10, f0, f9);
        
         tessellator1.draw();
-        GL11.glBindTexture(3553 /*GL_TEXTURE_2D*/, ModLoader.getMinecraftInstance().renderEngine.getTexture("/particles.png"));
+        //GL11.glBindTexture(3553 /*GL_TEXTURE_2D*/, ModLoader.getMinecraftInstance().renderEngine.getTexture("/particles.png"));
 }
 
 

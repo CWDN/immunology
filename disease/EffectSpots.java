@@ -17,7 +17,7 @@ public class EffectSpots extends DiseaseEffect{
 		{
 			if(!worldObj.isRemote)
 			{
-				PacketDispatcher.sendPacketToAllPlayers(disease.getParticlePacket(0, living.posX + 0.3D,living.posY + 1.6D,living.posZ));
+				/*PacketDispatcher.sendPacketToAllPlayers(disease.getParticlePacket(0, living.posX + 0.3D,living.posY + 1.6D,living.posZ));
 				PacketDispatcher.sendPacketToAllPlayers(disease.getParticlePacket(0, living.posX, living.posY + 1.6D,living.posZ + 0.3D));
 				PacketDispatcher.sendPacketToAllPlayers(disease.getParticlePacket(0, living.posX - 0.3D,living.posY + 1.7D,living.posZ));
 				PacketDispatcher.sendPacketToAllPlayers(disease.getParticlePacket(0, living.posX + 0.1D,living.posY + 1.8D,living.posZ + 0.3D));
@@ -27,7 +27,7 @@ public class EffectSpots extends DiseaseEffect{
 				PacketDispatcher.sendPacketToAllPlayers(disease.getParticlePacket(0, living.posX - 0.1D,living.posY + 1.7D,living.posZ - 0.3D));
 				PacketDispatcher.sendPacketToAllPlayers(disease.getParticlePacket(0, living.posX + 0.1D, living.posY + 1.8D,living.posZ - 0.3D));
 				PacketDispatcher.sendPacketToAllPlayers(disease.getParticlePacket(0, living.posX - 0.1D, living.posY + 1.9D,living.posZ - 0.3D));
-				PacketDispatcher.sendPacketToAllPlayers(disease.getParticlePacket(0, living.posX - 0.1D,living.posY + 1.8D,living.posZ + 0.3D));
+				PacketDispatcher.sendPacketToAllPlayers(disease.getParticlePacket(0, living.posX - 0.1D,living.posY + 1.8D,living.posZ + 0.3D));*/
 					
 			}
 				

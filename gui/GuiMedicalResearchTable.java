@@ -17,6 +17,7 @@ import piefarmer.immunology.common.Immunology;
 import piefarmer.immunology.disease.Disease;
 import piefarmer.immunology.disease.DiseaseEffect;
 import piefarmer.immunology.item.ItemMedicalBook;
+import piefarmer.immunology.item.Items;
 import piefarmer.immunology.network.packet.Packet6Cure;
 import piefarmer.immunology.tileentity.TileEntityMedicalResearchTable;
 
@@ -24,11 +25,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 
@@ -39,7 +42,6 @@ public class GuiMedicalResearchTable extends GuiContainer{
 	int currentPage = 1;
 	int maxPages = 99;
 	private EntityPlayer entityplayer;
-	private ImmunologyFont immunfont;
 	private TileEntityMedicalResearchTable tile;
 	private ContainerMedicalResearchTable container; 
 	float count;
@@ -48,6 +50,9 @@ public class GuiMedicalResearchTable extends GuiContainer{
 	float count4;
 	int counter = 0;
 	int cureid = 1;
+	public static final ResourceLocation RESOURCE_GUI_BG = new ResourceLocation("immunology:textures/gui/MedicalResearchTableGUI.png");
+	public static final ResourceLocation RESOURCE_GUI_FG = new ResourceLocation("immunology:textures/gui/DiagnosticTableGUI.png");
+	private static TextureManager textureManager;
 	
 	public GuiMedicalResearchTable(InventoryPlayer player, TileEntityMedicalResearchTable tileentity)
 	{
@@ -56,6 +61,7 @@ public class GuiMedicalResearchTable extends GuiContainer{
 		entityplayer = player.player;
 		this.ySize = 220;
 		tile = tileentity;
+		textureManager = Minecraft.getMinecraft().func_110434_K();
 	}
 	@Override  
 	public void initGui()
@@ -96,19 +102,17 @@ public class GuiMedicalResearchTable extends GuiContainer{
 			int var3) {
 		this.drawDefaultBackground();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        
-        mc.renderEngine.bindTexture("/mods/Immunology/textures/gui/MedicalResearchTableGUI.png");
+        textureManager.func_110577_a(RESOURCE_GUI_BG);
         drawTexturedModalRect(posX, posY, 0, 0, this.xSize, this.ySize);
         this.drawpotioncolours();
         this.drawbrewing();
-        mc.renderEngine.bindTexture("/mods/Immunology/textures/gui/DiagnosticTableGUI.png");
+        textureManager.func_110577_a(RESOURCE_GUI_FG);
         drawTexturedModalRect(posX + 85, posY + 80, 0, 139, 70, 33);
 		drawTexturedModalRect(posX + 85, posY + 113, 0, 211, 70, 14);
 		drawTexturedModalRect(posX + 155, posY + 113, 140, 211, 10, 14);
 		drawTexturedModalRect(posX + 155, posY + 80, 140, 139, 55, 33);
         
 		this.drawCenteredString(fontRenderer, currentPage + "/" + maxPages, posX + 125, posY + 70, 0xffffff);
-        immunfont = new ImmunologyFont(mc.gameSettings, "/font/default.png", mc.renderEngine, false);
         GL11.glScalef(0.5F, 0.5F, 1F);
         posX *= 2;
         posY *= 2;
@@ -119,12 +123,12 @@ public class GuiMedicalResearchTable extends GuiContainer{
         	List dl = it.getDiseasePages(is);
         	List cl = it.getCurePages(is);
         	List sl = it.getSidePages(is);
-	        immunfont.drawString("Total Known", posX + 259, posY + 52, 0x444444);
-	        immunfont.drawString("Diseases: " + dl.size(), posX + 259, posY + 62, 0x444444);
-	        immunfont.drawString("Total Found", posX + 259, posY + 76, 0x444444);
-	        immunfont.drawString("Cures: " + cl.size(), posX + 259, posY + 86, 0x444444);
-	        immunfont.drawString("Total Found", posX + 259, posY + 100, 0x444444);
-	        immunfont.drawString("Modifiers: " + sl.size(), posX + 259, posY + 110, 0x444444);
+	        fontRenderer.drawString("Total Known", posX + 259, posY + 52, 0x444444);
+	        fontRenderer.drawString("Diseases: " + dl.size(), posX + 259, posY + 62, 0x444444);
+	        fontRenderer.drawString("Total Found", posX + 259, posY + 76, 0x444444);
+	        fontRenderer.drawString("Cures: " + cl.size(), posX + 259, posY + 86, 0x444444);
+	        fontRenderer.drawString("Total Found", posX + 259, posY + 100, 0x444444);
+	        fontRenderer.drawString("Modifiers: " + sl.size(), posX + 259, posY + 110, 0x444444);
 	        
 	        this.maxPages = cl.size() + sl.size();
 	        if(currentPage == 0 && sl.size() > 0 || currentPage == 0 && cl.size() > 0)
@@ -142,7 +146,7 @@ public class GuiMedicalResearchTable extends GuiContainer{
 					if(l != null)
 					{
 						
-						ItemStack is1 = new ItemStack(Immunology.cure, 1, cureid);
+						ItemStack is1 = new ItemStack(Items.cure, 1, cureid);
 						ItemStack is2 = l.get(1);
 						fontRenderer.drawString("- " + is1.stackSize + " x     " + is1.getDisplayName(), posX + 185, posY + 187, 0xaaaaaa);
 						fontRenderer.drawString("- " + is2.stackSize + " x     " + is2.getDisplayName(), posX + 185, posY + 203, 0xaaaaaa);

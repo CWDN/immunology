@@ -11,6 +11,7 @@ import piefarmer.immunology.entity.EntityDiseaseHandler;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -54,7 +55,7 @@ public class DiseaseCommonCold extends Disease{
 		}
 	}
 	
-	public static void entityUpdate(EntityLiving entityliving)
+	public static void entityUpdate(EntityLivingBase entityliving)
 	{
 		if(DiseaseCommonCold.getBiomeTemperature(entityliving) < 4000)
 		{
@@ -74,7 +75,7 @@ public class DiseaseCommonCold extends Disease{
 			}
 		}
 	}
-	public static int getBiomeTemperature(EntityLiving entityliving)
+	public static int getBiomeTemperature(EntityLivingBase entityliving)
 	{
 		worldObj = entityliving.worldObj;
 		if(worldObj != null)

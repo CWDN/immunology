@@ -7,9 +7,6 @@
 package piefarmer.immunology.model;
 
 import org.lwjgl.opengl.GL11;
-
-import scala.util.Random;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;

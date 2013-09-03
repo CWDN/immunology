@@ -12,18 +12,24 @@ import piefarmer.immunology.disease.Disease;
 import piefarmer.immunology.disease.DiseaseEffect;
 import piefarmer.immunology.item.ItemCure;
 import piefarmer.immunology.item.ItemMedicalBook;
+import piefarmer.immunology.item.Items;
 import piefarmer.immunology.xml.XMLReader;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 
 public class GuiMedicalBook extends GuiScreen{
 	
 	protected static RenderItem itemRenderer = new RenderItem();
+	public static final ResourceLocation RESOURCE_BOOK_RIGHT = new ResourceLocation("immunology:textures/gui/medicalbookright.png");
+	public static final ResourceLocation RESOURCE_BOOK_LEFT = new ResourceLocation("immunology:textures/gui/medicalbookleft.png");
+	private static TextureManager textureManager;
 	int posX = 0;
 	int posY = 0;
 	int page = 0;
@@ -53,10 +59,10 @@ public class GuiMedicalBook extends GuiScreen{
 		this.drawDefaultBackground();
 		posX = this.width / 2;
 		posY = this.height /2;
-		
-		this.mc.renderEngine.bindTexture("/mods/Immunology/textures/gui/medicalbookright.png");
+		textureManager = this.mc.func_110434_K();
+		textureManager.func_110577_a(RESOURCE_BOOK_RIGHT);
 		this.drawTexturedModalRect(posX, posY - (176 /2), 0, 0, 161, 176);
-		this.mc.renderEngine.bindTexture("/mods/Immunology/textures/gui/medicalbookleft.png");
+		textureManager.func_110577_a(RESOURCE_BOOK_LEFT);
 		this.drawTexturedModalRect(posX - 168, posY - (176 /2), 0, 0, 168, 176);
 		fontRenderer.drawString(Integer.toString(page), posX + 130, posY - 67, 0x111111);
 		fontRenderer.drawString("Description", posX - 140, posY - 70, 0x111111);
@@ -77,7 +83,7 @@ public class GuiMedicalBook extends GuiScreen{
 				
 				if(l != null)
 				{
-					ItemStack is = new ItemStack(Immunology.cure, 1, cureid);
+					ItemStack is = new ItemStack(Items.cure, 1, cureid);
 					ItemStack is2 = l.get(1);
 					fontRenderer.drawString("- " + is.stackSize + " x     " + is.getDisplayName(), posX + 20, posY - 47, 0x111111);
 					fontRenderer.drawString("- " + is2.stackSize + " x     " + is2.getDisplayName(), posX + 20, posY - 31, 0x111111);
@@ -246,7 +252,7 @@ public class GuiMedicalBook extends GuiScreen{
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glEnable(GL11.GL_COLOR_MATERIAL);
         GL11.glEnable(GL11.GL_LIGHTING);
-        itemRenderer.renderItemAndEffectIntoGUI(font, this.mc.renderEngine, par1ItemStack, par2, par3);
+        itemRenderer.renderItemAndEffectIntoGUI(font, this.textureManager, par1ItemStack, par2, par3);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDepthMask(true);
         GL11.glEnable(GL11.GL_DEPTH_TEST);

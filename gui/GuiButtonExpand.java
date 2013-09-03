@@ -4,10 +4,14 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.util.ResourceLocation;
 
 public class GuiButtonExpand extends GuiButton{
 	
 	private boolean isExpanded = false;
+	public static final ResourceLocation RESOURCE_BUTTON = new ResourceLocation("immunology:textures/gui/DiagnosticTableGUI.png");
+	private static TextureManager textureManager;
 	public GuiButtonExpand(int par1, int par2, int par3)
     {
         super(par1, par2, par3, 11, 12, "");
@@ -20,10 +24,10 @@ public class GuiButtonExpand extends GuiButton{
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             Minecraft mc = par1Minecraft;
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            mc.renderEngine.bindTexture("/mods/Immunology/textures/gui/DiagnosticTableGUI.png");
             int var5 = 176;
             int var6 = 0;
-
+            textureManager = par1Minecraft.func_110434_K();
+            textureManager.func_110577_a(RESOURCE_BUTTON);
             if (var4)
             {
                 var5 += 11;

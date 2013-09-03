@@ -1,7 +1,9 @@
 package piefarmer.immunology.tileentity;
 
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -10,6 +12,7 @@ import piefarmer.immunology.model.ModelDiagnosticTable;
 public class TileEntityDiagnosticTableRenderer extends TileEntitySpecialRenderer{
 	
 	private ModelDiagnosticTable  model;
+	public static final ResourceLocation RESOURCE_TEXTURE = new ResourceLocation("immunology:textures/model/diagnostictable.png");
 	public TileEntityDiagnosticTableRenderer()
 	{
 		model = new ModelDiagnosticTable();
@@ -25,7 +28,7 @@ public class TileEntityDiagnosticTableRenderer extends TileEntitySpecialRenderer
 		}
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		bindTextureByName("/mods/Immunology/textures/models/diagnostictable.png");
+		this.func_110628_a(RESOURCE_TEXTURE);
 		GL11.glPushMatrix();
 		
 		GL11.glTranslatef((float)var2 + 0.5F, (float)var4 + 1.5F, (float)var6 + 0.5F);

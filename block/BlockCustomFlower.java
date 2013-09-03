@@ -10,6 +10,7 @@ import static net.minecraftforge.common.EnumPlantType.Water;
 import java.util.Random;
 
 import piefarmer.immunology.common.Immunology;
+import piefarmer.immunology.lib.Names;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
@@ -41,7 +42,7 @@ public class BlockCustomFlower extends Block implements IPlantable{
 
     public void registerIcons(IconRegister par1)
     {
-    	this.blockIcon = par1.registerIcon(Immunology.modid + ":" + this.getUnlocalizedName2());
+    	this.blockIcon = par1.registerIcon(Immunology.modid + ":" + Names.bluebellBlock_unlocalizedName);
     }
     /**
      * Checks to see if its valid to put this block at the specified coordinates. Args: world, x, y, z

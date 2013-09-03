@@ -16,6 +16,7 @@ import piefarmer.immunology.disease.DiseaseEffect;
 
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -25,9 +26,11 @@ public class EntityDiseaseHandler {
 	
 	protected HashMap activeDiseasesMap = new HashMap();
 	protected HashMap activeSideEffectsMap = new HashMap();
-	public EntityLiving living;
+	public int carryWeight = 0;
+	public int maxcarryWeight = 200;
+	public EntityLivingBase living;
 	public World worldObj;
-	public EntityDiseaseHandler(EntityLiving par1Living)
+	public EntityDiseaseHandler(EntityLivingBase par1Living)
 	{
 		living = par1Living;
 		if(par1Living != null)
@@ -67,6 +70,7 @@ public class EntityDiseaseHandler {
         	}
         	par1NBTTagCompound.setTag("ActiveSideEffects", nbttaglist1);
         }
+        par1NBTTagCompound.setInteger("CarryWeight", this.carryWeight);
 	}
 	public void readNBTData(NBTTagCompound par1NBTTagCompound)
 	{
@@ -91,6 +95,10 @@ public class EntityDiseaseHandler {
         		DiseaseEffect var5 = DiseaseEffect.readCustomSideEffectFromNBT(var4);
         		this.activeSideEffectsMap.put(Integer.valueOf(var5.getDiseaseEffectID()), var5);
         	}
+        }
+        if(par1NBTTagCompound.hasKey("CarryWeight"))
+        {
+        	this.carryWeight = par1NBTTagCompound.getInteger("CarryWeight");
         }
 	}
 	//
@@ -252,7 +260,7 @@ public class EntityDiseaseHandler {
             }
         }
     }
-    protected void updateDiseases(EntityLiving living)
+    protected void updateDiseases(EntityLivingBase living)
     {
         Iterator var1 = this.activeDiseasesMap.keySet().iterator();
         while (var1.hasNext())
@@ -332,7 +340,7 @@ public class EntityDiseaseHandler {
     //
     //Side Effects
     //
-    private void updateSideEffects(EntityLiving living) {
+    private void updateSideEffects(EntityLivingBase living) {
 		
     	Iterator var1 = this.activeSideEffectsMap.keySet().iterator();
         while (var1.hasNext())
@@ -467,6 +475,18 @@ public class EntityDiseaseHandler {
             this.onNewSideEffect(var3);
     	}
 		
+	}
+	public boolean addCarryWeight(int weight)
+	{
+		if(this.carryWeight + weight <= this.maxcarryWeight)
+		{
+			this.carryWeight += weight;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 }

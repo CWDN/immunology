@@ -7,6 +7,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
 public class RenderBadger extends RenderLiving{
@@ -29,5 +30,9 @@ public class RenderBadger extends RenderLiving{
 	public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
 	{
 		renderBadger((EntityBadger)par1Entity, par2, par4, par6, par8, par9);
+	}
+	@Override
+	protected ResourceLocation func_110775_a(Entity entity) {
+		return (new ResourceLocation("immunology:textures/model/badger.png"));
 	}
 }

@@ -10,6 +10,7 @@ import java.util.Map;
 import piefarmer.immunology.common.Immunology;
 import piefarmer.immunology.disease.DiseaseEffect;
 import piefarmer.immunology.item.ItemCure;
+import piefarmer.immunology.item.Items;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -36,10 +37,10 @@ public class MedicalResearchTableRecipes {
 	    private MedicalResearchTableRecipes()
 	    {
 	    	
-	        this.addBrewing(Item.snowball.itemID, Arrays.asList(new ItemStack(Immunology.cure, 1, 1), new ItemStack(Item.slimeBall, 1)), 1.0F);
-	        this.addBrewing(Item.egg.itemID, Arrays.asList(ItemCure.setSideEffects(new ItemStack(Immunology.cure, 1, 2), Arrays.asList(2,5)), new ItemStack(Item.feather, 1)), 1.5F);
-	        this.addBrewing(Item.slimeBall.itemID, Arrays.asList(ItemCure.setSideEffects(new ItemStack(Immunology.cure, 1, 3), Arrays.asList(3, 5)), new ItemStack(Item.netherStalkSeeds, 1)), 3.0F);
-	        this.addBrewing(Item.clay.itemID, Arrays.asList(ItemCure.setSideEffects(new ItemStack(Immunology.cure, 1, 4), Arrays.asList(4)), new ItemStack(Item.reed, 1)), 1.5F);
+	        this.addBrewing(Item.snowball.itemID, Arrays.asList(new ItemStack(Items.cure, 1, 1), new ItemStack(Item.slimeBall, 1)), 1.0F);
+	        this.addBrewing(Item.egg.itemID, Arrays.asList(ItemCure.setSideEffects(new ItemStack(Items.cure, 1, 2), Arrays.asList(2,5)), new ItemStack(Item.feather, 1)), 1.5F);
+	        this.addBrewing(Item.slimeBall.itemID, Arrays.asList(ItemCure.setSideEffects(new ItemStack(Items.cure, 1, 3), Arrays.asList(3, 5)), new ItemStack(Item.netherStalkSeeds, 1)), 3.0F);
+	        this.addBrewing(Item.clay.itemID, Arrays.asList(ItemCure.setSideEffects(new ItemStack(Items.cure, 1, 4), Arrays.asList(4)), new ItemStack(Item.reed, 1)), 1.5F);
 	        this.sideEffectsList.put(Arrays.asList(Item.paper.itemID, 0), 0);
 	        this.sideEffectsList.put(Arrays.asList(Item.slimeBall.itemID, 0), 1);
 	        this.sideEffectsList.put(Arrays.asList(Item.netherStalkSeeds.itemID, 0), 2);
@@ -84,7 +85,7 @@ public class MedicalResearchTableRecipes {
 	        {
 	            return null;
 	        }
-	        if(item.itemID != Immunology.cure.itemID)
+	        if(item.itemID != Items.cure.itemID)
 	        {
 		        List<ItemStack> ret = (List<ItemStack>)metaBrewingList.get(Arrays.asList(item.itemID, item.getItemDamage()));
 		        if (ret != null) 
@@ -133,7 +134,7 @@ public class MedicalResearchTableRecipes {
 		        				DiseaseEffect effect = (DiseaseEffect)iter.next();
 		        				list.add(effect.getDiseaseEffectID());
 		        			}
-		        			return ItemCure.setSideEffects(new ItemStack(Immunology.cure.itemID, 1, item.getItemDamage()), list);
+		        			return ItemCure.setSideEffects(new ItemStack(Items.cure.itemID, 1, item.getItemDamage()), list);
 		        		}
 		        	}
 	        		if(is != null)
@@ -146,7 +147,7 @@ public class MedicalResearchTableRecipes {
 	        				DiseaseEffect effect = (DiseaseEffect)iter.next();
 	        				list.add(effect.getDiseaseEffectID());
 	        			}
-		        		return ItemCure.setSideEffects(new ItemStack(Immunology.cure.itemID, 1, item.getItemDamage()), list);
+		        		return ItemCure.setSideEffects(new ItemStack(Items.cure.itemID, 1, item.getItemDamage()), list);
 		        	}
 		        	
 	        	}
@@ -195,7 +196,7 @@ public class MedicalResearchTableRecipes {
     		{
     			return true;
     		}
-	    	if(item.itemID == Immunology.cure.itemID)
+	    	if(item.itemID == Items.cure.itemID)
 	    	{
 	    		return true;
 	    	}
@@ -238,7 +239,7 @@ public class MedicalResearchTableRecipes {
 	    			Integer i = this.sideEffectsList.get(l);
 	    			if(i == id - 1)
 	    			{
-	    				return Arrays.asList(new ItemStack(Immunology.cure, 1, id), is);
+	    				return Arrays.asList(new ItemStack(Items.cure, 1, id), is);
 	    			}
 	    		}
 	    	}

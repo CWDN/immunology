@@ -16,12 +16,11 @@ public class EventSounds {
 		try
 		{
 			Minecraft mc = Minecraft.getMinecraft();
-			event.manager.soundPoolSounds.addSound("piefarmer/immunology/sneeze.wav", new File(mc.mcDataDir, "resources/immunology/sneeze.wav"));
-			event.manager.soundPoolSounds.addSound("piefarmer/immunology/sniff.wav", new File(mc.mcDataDir, "resources/immunology/sniff.wav"));
-			event.manager.soundPoolSounds.addSound("piefarmer/immunology/cough.wav", new File(mc.mcDataDir, "resources/immunology/cough.wav"));
-			event.manager.soundPoolSounds.addSound("piefarmer/immunology/badgerdeath.wav", new File(mc.mcDataDir, "resources/immunology/badgerdeath.wav"));
-			event.manager.soundPoolSounds.addSound("piefarmer/immunology/badgerhurt.wav", new File(mc.mcDataDir, "resources/immunology/badgerhurt.wav"));
-			event.manager.soundPoolSounds.addSound("piefarmer/immunology/badgerliving.wav", new File(mc.mcDataDir, "resources/immunology/badgerliving.wav"));
+			event.manager.addSound("immunology:sneeze.wav");
+			event.manager.addSound("immunology:sniff.wav");
+			event.manager.addSound("imnnuology:cough.wav");
+			event.manager.addSound("immunology:badgerdeath.wav");
+			event.manager.addSound("immunology:badgerhurt.wav");
 		}
 		catch(Exception e)
 		{

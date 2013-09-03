@@ -4,6 +4,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -14,23 +16,27 @@ public class GuiButtonNextBookPage extends GuiButton
      * True for pointing right (next page), false for pointing left (previous page).
      */
     private final boolean nextPage;
-
+    public static final ResourceLocation RESOURCE_BUTTON = new ResourceLocation("immunology:textures/gui/book.png");
+    private static TextureManager textureManager;
     public GuiButtonNextBookPage(int par1, int par2, int par3, boolean par4)
     {
         super(par1, par2, par3, 23, 13, "");
         this.nextPage = par4;
+        
     }
 
     /**
      * Draws this button to the screen.
      */
+    @Override
     public void drawButton(Minecraft par1Minecraft, int par2, int par3)
     {
         if (this.drawButton)
         {
             boolean flag = par2 >= this.xPosition && par3 >= this.yPosition && par2 < this.xPosition + this.width && par3 < this.yPosition + this.height;
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            par1Minecraft.renderEngine.bindTexture("/gui/book.png");
+            textureManager = par1Minecraft.func_110434_K();
+            textureManager.func_110577_a(RESOURCE_BUTTON);
             int k = 0;
             int l = 192;
 

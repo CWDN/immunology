@@ -6,6 +6,7 @@ import java.util.Iterator;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -65,7 +66,7 @@ public class DiseaseEffect {
 		this.duration = var2;
 		this.load = var3;
 	}
-	public void performEffect(Disease disease, EntityLiving living){
+	public void performEffect(Disease disease, EntityLivingBase living){
 		
 	}
 	public int getDiseaseEffectID()
@@ -80,7 +81,7 @@ public class DiseaseEffect {
 	{
 		return this.stageEnd;
 	}
-	public boolean performSideEffect(EntityLiving entityliving) {
+	public boolean performSideEffect(EntityLivingBase entityliving) {
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
     	if(side.isServer())
         {

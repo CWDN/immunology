@@ -17,6 +17,8 @@ import piefarmer.immunology.disease.Disease;
 import piefarmer.immunology.entity.EntityBadger;
 import piefarmer.immunology.entity.EntityDiseaseHandler;
 import piefarmer.immunology.item.ItemDecayingFood;
+import piefarmer.immunology.item.Items;
+import piefarmer.immunology.lib.LogHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -30,11 +32,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.src.ModLoader;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.*;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.world.ChunkDataEvent;
 import net.minecraftforge.event.world.ChunkEvent;
@@ -95,13 +100,38 @@ public class EventHook {
 		{
 			EntityPlayer pl = (EntityPlayer)evt.entityLiving;
 			ItemStack is = pl.inventory.armorItemInSlot(2);
-			if(is != null && is.getItem().itemID == Immunology.hangGlider.itemID)
+			if(is != null && is.getItem().itemID == Items.hangGlider.itemID)
 			{
 				if(evt.isCancelable())
 				{
 					evt.setCanceled(true);
 				}
 			}
+		}
+	}
+	@ForgeSubscribe
+	public void entityItemPickUpEvent(EntityItemPickupEvent evt)
+	{
+		EntityDiseaseHandler hand = Immunology.loadedEntityList.get(evt.entityLiving.hashCode());
+		if(hand != null)
+		{
+			if(!hand.addCarryWeight(10))
+			{
+				if(evt.isCancelable())
+				{
+					evt.setCanceled(true);
+					LogHelper.log(Level.INFO, "Player can't pickup item overcumbed");
+				}
+			}
+		}
+	}
+	@ForgeSubscribe
+	public void itemTossEvent(ItemTossEvent evt)
+	{
+		EntityDiseaseHandler hand = Immunology.loadedEntityList.get(evt.player.hashCode());
+		if(hand != null)
+		{
+			hand.addCarryWeight(-10);
 		}
 	}
 	

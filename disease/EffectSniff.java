@@ -1,6 +1,8 @@
 package piefarmer.immunology.disease;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
@@ -10,7 +12,7 @@ public class EffectSniff extends DiseaseEffect{
 	public EffectSniff(int id, int stgAct, int stgEnd, String name) {
 		super(id, stgAct, stgEnd, name);
 	}
-	public void performEffect(Disease disease, EntityLiving living)
+	public void performEffect(Disease disease, EntityLivingBase living)
 	{
 		worldObj = living.worldObj;
 		EntityPlayer player = null;
@@ -33,7 +35,7 @@ public class EffectSniff extends DiseaseEffect{
 						worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "piefarmer.immunology.sniff", 0.1F, pitch);
 					
 				}
-				else if(name.equals(villagername))
+				else if(living instanceof EntityVillager)
 				{
 					Float rfloat = rand.nextFloat();
 					Float pitch = 0.5F + (rfloat / 2);

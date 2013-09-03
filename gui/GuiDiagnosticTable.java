@@ -6,10 +6,12 @@ import java.util.List;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
@@ -20,6 +22,7 @@ import piefarmer.immunology.common.Immunology;
 import piefarmer.immunology.disease.Disease;
 import piefarmer.immunology.entity.EntityDiseaseHandler;
 import piefarmer.immunology.item.ItemMedicalBook;
+import piefarmer.immunology.item.Items;
 import piefarmer.immunology.network.packet.Packet7Book;
 import piefarmer.immunology.tileentity.TileEntityDiagnosticTable;
 import piefarmer.immunology.tileentity.TileEntityMedicalResearchTable;
@@ -32,7 +35,8 @@ public class GuiDiagnosticTable extends GuiScreen{
 	int xSize = 176;
 	int currentPage = 1;
 	int maxPages = 99;
-	
+	public static final ResourceLocation RESOURCE_GUI_BG = new ResourceLocation("immunology:textures/gui/DiagnosticTableGUI.png");
+	private static TextureManager textureManager;
 	GuiButtonExpand btnExpand1 = null;
 	GuiButtonExpand btnExpand2 = null;
 	GuiButtonExpand btnExpand3 = null;
@@ -71,7 +75,8 @@ public class GuiDiagnosticTable extends GuiScreen{
 	public void drawScreen(int par1, int par2, float par3) {
 		this.drawDefaultBackground();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        mc.renderEngine.bindTexture("/mods/Immunology/textures/gui/DiagnosticTableGUI.png");
+        textureManager = mc.func_110434_K();
+        textureManager.func_110577_a(RESOURCE_GUI_BG); 
         drawTexturedModalRect(posX, posY, 0, 0, this.xSize, this.ySize);        
         if(this.btnExpand1.drawButton && this.btnExpand2.drawButton && this.btnExpand3.drawButton)
         {	
@@ -196,7 +201,8 @@ public class GuiDiagnosticTable extends GuiScreen{
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 					GL11.glEnable(GL11.GL_BLEND);
 	        		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-					mc.renderEngine.bindTexture("/mods/Immunology/textures/gui/diseases/"+ disease.getName()+ ".png");
+	        		ResourceLocation rl = new ResourceLocation("immunology:textures/gui/diseases/"+ disease.getName()+ ".png");
+	        		textureManager.func_110577_a(rl);
 					GL11.glScalef(0.0625F, 0.0625F, 0.0625F);
 		            this.drawTexturedModalRect((posX + 22) * 16, (posY + 44 + (29 * count)) * 16, 0, 0, 256, 256);
 		            GL11.glScalef(16F, 16F, 16F);
@@ -220,7 +226,8 @@ public class GuiDiagnosticTable extends GuiScreen{
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			GL11.glEnable(GL11.GL_BLEND);
     		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			mc.renderEngine.bindTexture("/mods/Immunology/textures/gui/diseases/"+ disease.getName()+ ".png");
+    		ResourceLocation rl = new ResourceLocation("immunology:textures/gui/diseases/"+ disease.getName()+ ".png");
+    		textureManager.func_110577_a(rl);
 			GL11.glScalef(0.0625F, 0.0625F, 0.0625F);
             this.drawTexturedModalRect((posX + 22) * 16, (posY + 44) * 16, 0, 0, 256, 256);
             GL11.glScalef(16F, 16F, 16F);
@@ -278,7 +285,7 @@ public class GuiDiagnosticTable extends GuiScreen{
 	}
 	public int getColour(int index)
 	{
-		return Immunology.cure.getColorFromDamage(index + 1);
+		return Items.cure.getColorFromDamage(index + 1);
 	}
 	public void getDiseases()
 	{
@@ -293,7 +300,7 @@ public class GuiDiagnosticTable extends GuiScreen{
 				this.tile.setEntityName(entityplayer.username, entityplayer, this.Entitydiseases);
 				this.pageSetup(size);
 				Iterator iter = this.Entitydiseases.iterator();
-				if(this.entityplayer.inventory.hasItem(Immunology.medicalBook.itemID))
+				if(this.entityplayer.inventory.hasItem(Items.medicalBook.itemID))
 				{
 					int slot = 0;
 					ItemStack[] is = this.entityplayer.inventory.mainInventory;

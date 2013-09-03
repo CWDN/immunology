@@ -2,6 +2,7 @@ package piefarmer.immunology.client;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import piefarmer.immunology.block.Blocks;
 import piefarmer.immunology.common.*;
 import piefarmer.immunology.entity.EntityBadger;
 import piefarmer.immunology.events.EventSounds;
@@ -13,6 +14,8 @@ import piefarmer.immunology.item.ItemDiagnosticTableRenderer;
 import piefarmer.immunology.item.ItemHangGliderRenderer;
 import piefarmer.immunology.item.ItemMedicalResearchTableRenderer;
 import piefarmer.immunology.item.ItemRockRenderer;
+import piefarmer.immunology.item.Items;
+import piefarmer.immunology.lib.Ids;
 import piefarmer.immunology.model.ModelBadger;
 import piefarmer.immunology.model.RenderBadger;
 import piefarmer.immunology.tileentity.TileEntityDiagnosticTable;
@@ -31,17 +34,16 @@ import net.minecraftforge.common.MinecraftForge;
 public class ClientProxy extends CommonProxy
 {
 	@Override
-	public void registerRenderThings() 
+	public void initRenderers() 
 	 {
 		 ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMedicalResearchTable.class, new TileEntityMedicalResearchTableRenderer());
-		 MinecraftForgeClient.registerItemRenderer(Immunology.blockMedResearchTable.blockID, new ItemMedicalResearchTableRenderer());
+		 MinecraftForgeClient.registerItemRenderer(Ids.blockmedrestblID_actual, new ItemMedicalResearchTableRenderer());
 		 ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDiagnosticTable.class, new TileEntityDiagnosticTableRenderer());
-		 MinecraftForgeClient.registerItemRenderer(Immunology.blockDiagTable.blockID, new ItemDiagnosticTableRenderer());
+		 MinecraftForgeClient.registerItemRenderer(Ids.blockdiatblID_actual, new ItemDiagnosticTableRenderer());
 		 ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRock.class, new TileEntityRockSpecialRenderer());
-		 MinecraftForgeClient.registerItemRenderer(Immunology.blockRock.blockID, new ItemRockRenderer());
+		 MinecraftForgeClient.registerItemRenderer(Ids.blockrockID_actual, new ItemRockRenderer());
 		 RenderingRegistry.registerEntityRenderingHandler(EntityBadger.class, new RenderBadger(new ModelBadger(), 0.3F));
-		 
-		 MinecraftForgeClient.registerItemRenderer(Immunology.hangGlider.itemID, (IItemRenderer) new ItemHangGliderRenderer());
+		 MinecraftForgeClient.registerItemRenderer(Ids.itemhanggliderID_actual + 256, (IItemRenderer) new ItemHangGliderRenderer());
 	 }
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world,

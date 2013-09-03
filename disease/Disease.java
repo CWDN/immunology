@@ -22,6 +22,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.*;
 import net.minecraft.item.Item;
@@ -199,7 +200,7 @@ public class Disease {
      * Called for when the disease has been caught and the disease effects will need to be applied. Called every tick.
      * @param par1EntityLiving
      */
-    public void performEffect(EntityLiving par1EntityLiving) {
+    public void performEffect(EntityLivingBase par1EntityLiving) {
     	
 
     	for(int i = 0; i < Disease.diseaseTypes[this.diseaseID].DiseaseEffects.size(); i++)
@@ -212,7 +213,7 @@ public class Disease {
     	}
     	
 	}
-    public boolean onUpdate(EntityLiving par1EntityLiving)
+    public boolean onUpdate(EntityLivingBase par1EntityLiving)
     {
     	Side side = FMLCommonHandler.instance().getEffectiveSide();
     	if(side.isServer())
@@ -360,14 +361,14 @@ public class Disease {
 		return new Disease(0,0);    	
     }
  
-    public static void entityUpdateHook(EntityLiving entityliving){
+    public static void entityUpdateHook(EntityLivingBase entityLiving){
     	for(int i = 0; i < diseaseTypes.length; ++i)
     	{
     		if(diseaseTypes[i] != null)
     		{
     			Class<?> clazz = diseaseTypes[i].getClass();
-    			Class[] methodParameters = new Class[]{EntityLiving.class};
-    			Object[] params = new Object[]{entityliving};
+    			Class[] methodParameters = new Class[]{EntityLivingBase.class};
+    			Object[] params = new Object[]{entityLiving};
     			
     			Method entityUpdateMethod;
     			try {

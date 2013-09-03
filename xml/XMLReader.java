@@ -7,7 +7,7 @@ public class XMLReader {
 	
 	public static String getDescriptionByDiseaseID(String id){
 		
-		Document xmlDoc = getDocument("./resources/immunology/diseases.xml");	
+		Document xmlDoc = getDocument("./assets/immunology/diseases.xml");	
 		NodeList listofdiseases = xmlDoc.getElementsByTagName("disease");		
 		return getDiseaseElement(listofdiseases, id);
 	}
@@ -50,7 +50,7 @@ public class XMLReader {
 	}
 	public static String getDescriptionByDiseaseEffectID(String id){
 		
-		Document xmlDoc = getDocument("./resources/immunology/diseases.xml");	
+		Document xmlDoc = getDocument("./assets/immunology/diseases.xml");	
 		NodeList listofdiseases = xmlDoc.getElementsByTagName("diseaseeffect");		
 		return getDiseaseEffectElement(listofdiseases, id);
 	}

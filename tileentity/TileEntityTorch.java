@@ -2,6 +2,7 @@ package piefarmer.immunology.tileentity;
 
 import java.util.Random;
 
+import piefarmer.immunology.block.Blocks;
 import piefarmer.immunology.common.Immunology;
 import net.minecraft.tileentity.TileEntity;
 
@@ -31,7 +32,7 @@ public class TileEntityTorch extends TileEntity{
 		}
 		else if (this.timeLit == 0)
 		{
-			this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Immunology.torchWoodNotLit.blockID, this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord), 3);
+			this.worldObj.setBlock(this.xCoord, this.yCoord, this.zCoord, Blocks.torchWoodNotLit.blockID, this.worldObj.getBlockMetadata(this.xCoord, this.yCoord, this.zCoord), 3);
 		}
 	}
 

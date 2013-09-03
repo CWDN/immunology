@@ -16,6 +16,7 @@ import piefarmer.immunology.disease.DiseaseChickenPox;
 import piefarmer.immunology.disease.DiseaseCommonCold;
 import piefarmer.immunology.disease.Disease;
 import piefarmer.immunology.entity.EntityDiseaseHandler;
+import piefarmer.immunology.lib.Names;
 import piefarmer.immunology.xml.XMLReader;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -33,6 +34,7 @@ public class ItemDisease extends Item{
 
 	public ItemDisease(int par1) {
 		super(par1);
+		this.setCreativeTab(Immunology.tabImmunology);
 	}
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
@@ -52,7 +54,7 @@ public class ItemDisease extends Item{
     }
 	public void registerIcons(IconRegister par1IconRegister)
     {
-        this.itemIcon = par1IconRegister.registerIcon(Immunology.modid + ":" + this.getUnlocalizedName());
+        this.itemIcon = par1IconRegister.registerIcon(Immunology.modid + ":" + Names.diseaseItem_unlocalizedName);
     }
 
 }

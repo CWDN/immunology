@@ -4,12 +4,17 @@ import org.lwjgl.opengl.GL11;
 
 import piefarmer.immunology.model.ModelMedicalResearchTable;
 import piefarmer.immunology.model.ModelRock;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 public class TileEntityRockSpecialRenderer extends TileEntitySpecialRenderer {
 
 	private ModelRock  model;
+	public static final ResourceLocation RESOURCE_ENTITY = new ResourceLocation("immunology:textures/model/rock.png");
+	private static TextureManager textureManager;
 	public TileEntityRockSpecialRenderer()
 	{
 		model = new ModelRock();
@@ -28,7 +33,8 @@ public class TileEntityRockSpecialRenderer extends TileEntitySpecialRenderer {
 		{
 			rotation = var1.getBlockMetadata();
 		}
-		bindTextureByName("/mods/Immunology/textures/models/rock.png");
+		textureManager = Minecraft.getMinecraft().func_110434_K();
+		textureManager.func_110577_a(RESOURCE_ENTITY);
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float)var2 + 0.5F, (float)var4 + 1.5F, (float)var6 + 0.5F);
 		if(rotation == 0 || rotation == 2)

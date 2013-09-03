@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.Item;
@@ -19,11 +20,12 @@ public class ItemHangGlider extends ItemArmor{
 
 	public ItemHangGlider(int par1) {
 		super(par1, EnumArmorMaterial.CLOTH, 0, 1);
+		this.setCreativeTab(Immunology.tabImmunology);
 	}
 	@Override
-	public boolean isValidArmor(ItemStack stack, int armorType)
+	public boolean isValidArmor(ItemStack stack, int armorType, Entity entity)
     {
-		if(stack.getItem().itemID == Immunology.hangGlider.itemID && armorType == 1)
+		if(stack.getItem().itemID == Items.hangGlider.itemID && armorType == 1)
 		{
 			return true;
 		}
@@ -32,28 +34,30 @@ public class ItemHangGlider extends ItemArmor{
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, int layer)
     {
-		return "/mods/Immunology/textures/models/glider.png";
+		return "immunology:textures/model/glider.png";
 		
     }
 	@SideOnly(Side.CLIENT)
-    public ModelBiped getArmorModel(EntityLiving entityLiving, ItemStack itemStack, int armorSlot)
+	@Override
+    public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot)
     {
         return new ModelGlider();
     }
 	@Override
 	public void onArmorTickUpdate(World world, EntityPlayer player, ItemStack itemStack)
     {
+		
 		if(player.fallDistance > 1)
 		{
 			player.setSprinting(false);
 			player.moveEntityWithHeading(0, 1);
-			if(player.isJumping)
+			if(player.isSneaking())
 			{
-				player.motionY = 0;
+				player.motionY /= 2;
 			}
 			else
 			{
-				player.motionY /= 4;	
+				player.motionY /= 4;
 			}
 			
 

@@ -27,6 +27,7 @@ import net.minecraft.world.World;
 import piefarmer.immunology.client.ClientProxy;
 import piefarmer.immunology.common.*;
 import piefarmer.immunology.gui.ContainerMedicalResearchTable;
+import piefarmer.immunology.lib.Names;
 import piefarmer.immunology.tileentity.TileEntityMedicalResearchTable;
 import piefarmer.immunology.tileentity.TileEntityMedicalResearchTableRenderer;
 
@@ -36,6 +37,7 @@ public class BlockMedicalResearchTable extends BlockContainer{
 	public BlockMedicalResearchTable(int par1) {
 		super(par1, Material.iron);
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.935F, 1.0F);
+		this.setCreativeTab(Immunology.tabImmunology);
 	
 	}
 	public int quantityDropped(Random par1Random)
@@ -59,7 +61,7 @@ public class BlockMedicalResearchTable extends BlockContainer{
 	}
 	public void registerIcons(IconRegister par1IconRegister)
     {
-        this.blockIcon = par1IconRegister.registerIcon(Immunology.modid + ":" + this.getUnlocalizedName2());
+        this.blockIcon = par1IconRegister.registerIcon(Immunology.modid + ":" + Names.medresBlock_unlocalizedName);
     }
 	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving, ItemStack par6ItemStack)
 	{

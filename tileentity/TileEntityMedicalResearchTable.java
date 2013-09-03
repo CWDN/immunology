@@ -17,6 +17,7 @@ import piefarmer.immunology.disease.Disease;
 import piefarmer.immunology.gui.MedicalResearchTableRecipes;
 import piefarmer.immunology.item.ItemCure;
 import piefarmer.immunology.item.ItemMedicalBook;
+import piefarmer.immunology.item.Items;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -293,12 +294,12 @@ public class TileEntityMedicalResearchTable extends TileEntity implements ISided
             		if(this.itemstacks[12].getItem() instanceof ItemMedicalBook)
             		{
             			ItemMedicalBook book;
-            			if(itemstack.itemID != Immunology.cure.itemID)
+            			if(itemstack.itemID != Items.cure.itemID)
             			{
             				book = (ItemMedicalBook)this.itemstacks[12].getItem();
             				book.setCurePages(this.itemstacks[12], is.getItemDamage() - 1);
             			}
-            			else if(itemstack.itemID == Immunology.cure.itemID)
+            			else if(itemstack.itemID == Items.cure.itemID)
             			{
             				book = (ItemMedicalBook)this.itemstacks[12].getItem();
             				if(!itemstack.equals(is))
@@ -363,33 +364,25 @@ public class TileEntityMedicalResearchTable extends TileEntity implements ISided
 	public boolean isInvNameLocalized() {
 		return false;
 	}
-
-	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
-		return false;
-	}
 	@Override
 	public int[] getAccessibleSlotsFromSide(int var1) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	public void setItemStackSideEffects(List<Integer> asList, int slot) {
 		ItemStack is = (ItemStack) this.itemstacks[slot];
 		if(is != null)
 		{
-			is = new ItemStack(Immunology.cure.itemID , 1, is.getItemDamage());
+			is = new ItemStack(Items.cure.itemID , 1, is.getItemDamage());
 			ItemCure.setSideEffects(is, asList);
 			this.itemstacks[slot] = is;
 		}
@@ -401,5 +394,10 @@ public class TileEntityMedicalResearchTable extends TileEntity implements ISided
 	public void setItemStack(int index, ItemStack is)
 	{
 		this.itemstacks[index] = is;
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		return false;
 	}
 }

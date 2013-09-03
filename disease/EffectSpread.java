@@ -7,6 +7,7 @@ import piefarmer.immunology.entity.EntityDiseaseHandler;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -17,7 +18,7 @@ public class EffectSpread extends DiseaseEffect {
 	public EffectSpread(int id, int stgAct, int stgEnd, String par1name) {
 		super(id, stgAct, stgEnd, par1name);
 	}
-	public void performEffect(Disease disease, EntityLiving living){
+	public void performEffect(Disease disease, EntityLivingBase living){
 		worldObj = living.worldObj;
 		double par7 = 5.0D;
 		if(worldObj != null && !worldObj.isRemote)
@@ -33,16 +34,17 @@ public class EffectSpread extends DiseaseEffect {
 					{
 							Random rand = new Random();
 							int i = rand.nextInt(20000);
-							if(var13 instanceof EntityLiving)
+							EntityPlayer player = null;
+							if(var13 instanceof EntityLivingBase)
 							{
-								EntityLiving entityliving = (EntityLiving)var13;
+								EntityLivingBase entityliving = (EntityLivingBase)var13;
 								if(i <= 10 && entityliving.entityId != living.entityId)
 								{
 									if(disease.getName() == "Chicken Pox")
 									{
 										if(entityliving instanceof EntityChicken || entityliving instanceof EntityPlayer)
 										{
-											EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(entityliving.hashCode());
+											EntityDiseaseHandler hand = (EntityDiseaseHandler) Immunology.loadedEntityList.get(var13.hashCode());
 											if(hand != null)
 											{
 												hand.addDisease(Disease.diseaseTypes[disease.getdiseaseID()]);

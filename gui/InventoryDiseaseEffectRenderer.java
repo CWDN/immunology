@@ -24,12 +24,14 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.src.ModLoader;
 import net.minecraft.util.Icon;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.StringUtils;
 
@@ -97,9 +99,11 @@ public class InventoryDiseaseEffectRenderer extends GuiScreen
 			    
 			    if (var4.size() > 0)
 			    {
-			        String var5 = "/mods/Immunology/textures/gui/Inventory.png";
-			        
-			        this.mc.renderEngine.bindTexture(var5);
+			        ResourceLocation rl = new ResourceLocation("immunology:textures/gui/Inventory.png");
+			        TextureManager textureManager = this.mc.func_110434_K();
+			        textureManager.func_110577_a(rl);
+			        GL11.glEnable(GL11.GL_BLEND);
+					GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			        GL11.glDisable(GL11.GL_LIGHTING);
 			        int var6 = 33;
@@ -111,11 +115,11 @@ public class InventoryDiseaseEffectRenderer extends GuiScreen
 			        	if(effectid != 7)
 			        	{
 			        		DiseaseEffect var8 = DiseaseEffect.diseaseEffects[effectid];
+			        		textureManager.func_110577_a(rl);
 			                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			                this.mc.renderEngine.bindTexture(var5);
 			                this.drawTexturedModalRect(var1, var2, 0, 0, 32, 32);
-			                String fileloc = "/mods/Immunology/textures/gui/effects/" + var8.getName() + ".png";
-			                this.mc.renderEngine.bindTexture(fileloc);
+			                ResourceLocation rl1 = new ResourceLocation("immunology:textures/gui/effects/" + var8.getName() + ".png");
+			                textureManager.func_110577_a(rl1);
 			                GL11.glScalef(0.0625F, 0.0625F, 0.0625F);
 				            this.drawTexturedModalRect((var1 + 7) * 16, (var2 + 5) * 16, 0, 0, 256, 256);
 				            GL11.glScalef(16F, 16F, 16F);

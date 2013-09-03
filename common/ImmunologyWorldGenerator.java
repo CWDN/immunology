@@ -2,6 +2,8 @@ package piefarmer.immunology.common;
 
 import java.util.Random;
 
+import piefarmer.immunology.block.Blocks;
+
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -31,7 +33,7 @@ public class ImmunologyWorldGenerator implements IWorldGenerator{
 	}
 	public void generateSurface(World world, Random random, int blockX, int blockZ){
 		//new WorldGenFlowers(Immunology.plantBlueBell.blockID).generate(world, random, blockX + random.nextInt(16), random.nextInt(140), blockZ + random.nextInt(16));
-		new WorldGenRocks(Immunology.blockRock.blockID).generate(world, random, blockX + random.nextInt(16), random.nextInt(140), blockZ + random.nextInt(16));
+		new WorldGenRocks(Blocks.blockRock.blockID).generate(world, random, blockX + random.nextInt(16), random.nextInt(140), blockZ + random.nextInt(16));
 	}
 	public void generateNether(World world, Random random, int blockX, int blockZ){}
 	public void generateEnd(World world, Random random, int blockX, int blockZ){}

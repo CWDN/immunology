@@ -1,6 +1,7 @@
 package piefarmer.immunology.disease;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
@@ -11,7 +12,7 @@ public class EffectCough extends DiseaseEffect {
 		super(id, stgAct, stgEnd, name);
 	}
 	@Override
-	public void performEffect(Disease disease, EntityLiving entityliving)
+	public void performEffect(Disease disease, EntityLivingBase entityliving)
 	{
 
 		worldObj = entityliving.worldObj;

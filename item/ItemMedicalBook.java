@@ -6,6 +6,7 @@ import java.util.List;
 
 import piefarmer.immunology.common.Immunology;
 import piefarmer.immunology.disease.DiseaseEffect;
+import piefarmer.immunology.lib.Names;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -18,6 +19,7 @@ public class ItemMedicalBook extends Item{
 
 	public ItemMedicalBook(int par1) {
 		super(par1);
+		this.setCreativeTab(Immunology.tabImmunology);
 	}
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
     {
@@ -27,7 +29,7 @@ public class ItemMedicalBook extends Item{
     }
 	public void registerIcons(IconRegister par1)
 	{
-		this.itemIcon = par1.registerIcon(Immunology.modid + ":" + this.getUnlocalizedName());
+		this.itemIcon = par1.registerIcon(Immunology.modid + ":" + Names.medbookItem_unlocalizedName);
 	}
 	public ItemStack setDiseasePages(ItemStack is, int id)
 	{

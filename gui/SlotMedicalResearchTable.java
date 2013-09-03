@@ -22,10 +22,5 @@ public class SlotMedicalResearchTable extends InventoryBasic{
 	    super.onInventoryChanged();
 	    this.container.onCraftMatrixChanged(this);
 	}
-	@Override
-	public boolean isStackValidForSlot(int par1, ItemStack par2ItemStack)
-	{
-	    return true;
-	}
 
 }

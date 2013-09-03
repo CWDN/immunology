@@ -8,6 +8,7 @@ import static net.minecraftforge.common.ForgeDirection.WEST;
 import java.util.Random;
 
 import piefarmer.immunology.common.Immunology;
+import piefarmer.immunology.lib.Names;
 import piefarmer.immunology.tileentity.TileEntityMedicalResearchTable;
 import piefarmer.immunology.tileentity.TileEntityTorch;
 
@@ -34,7 +35,7 @@ public class BlockCustomTorch extends BlockContainer{
     {
         super(par1, Material.circuits);
         this.setTickRandomly(true);
-        this.setCreativeTab((CreativeTabs)null);
+        this.setCreativeTab(CreativeTabs.tabDecorations);
         this.isLit = par2;
     }
 
@@ -140,13 +141,13 @@ public class BlockCustomTorch extends BlockContainer{
     @Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int i, float a, float b, float c)
 	{
-    	if(this.blockID == Immunology.torchWoodNotLit.blockID)
+    	if(this.blockID == Blocks.torchWoodNotLit.blockID)
     	{
     		ItemStack is = player.getHeldItem();
-    		if(is != null && is.getItem().itemID == Item.flintAndSteel.itemID || is != null && is.getItem().itemID == Immunology.torchWoodLit.blockID)
+    		if(is != null && is.getItem().itemID == Item.flintAndSteel.itemID || is != null && is.getItem().itemID == Blocks.torchWoodLit.blockID)
     		{
     			Random rand = new Random();
-    			world.setBlock(x, y, z, Immunology.torchWoodLit.blockID, world.getBlockMetadata(x, y, z), 3);
+    			world.setBlock(x, y, z, Blocks.torchWoodLit.blockID, world.getBlockMetadata(x, y, z), 3);
     			world.playSoundEffect((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, "fire.ignite", 1.0F, rand.nextFloat() * 0.4F + 0.8F);
     			is.damageItem(1, player);
     			return true;
@@ -361,26 +362,26 @@ public class BlockCustomTorch extends BlockContainer{
     {
     	if(this.isLit)
     	{
-    		return Immunology.torchWoodLit.blockID;
+    		return Blocks.torchWoodLit.blockID;
     	}
     	else
     	{
-    		return Immunology.torchWoodNotLit.blockID;
+    		return Blocks.torchWoodNotLit.blockID;
     	}
     }
     public int idPicked(World par1World, int par2, int par3, int par4)
     {
-        return Immunology.torchWoodLit.blockID;
+        return Blocks.torchWoodLit.blockID;
     }
     public void registerIcons(IconRegister par1IconRegister)
     {
         if (this.isLit)
         {
-            this.blockIcon = par1IconRegister.registerIcon("torch");
+            this.blockIcon = par1IconRegister.registerIcon(Immunology.modid + ":torch");
         }
         else
         {
-            this.blockIcon = par1IconRegister.registerIcon("redtorch");
+            this.blockIcon = par1IconRegister.registerIcon(Immunology.modid + ":" + Names.unlittorchBlock_unlocalizedName);
         }
     }
 	

@@ -15,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import piefarmer.immunology.common.Immunology;
+import piefarmer.immunology.lib.Names;
 import piefarmer.immunology.tileentity.TileEntityDiagnosticTable;
 import piefarmer.immunology.tileentity.TileEntityMedicalResearchTable;
 
@@ -23,6 +24,7 @@ public class BlockDiagnosticTable extends BlockContainer{
 	public BlockDiagnosticTable(int par1) {
 		super(par1, Material.iron);
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.935F, 1.0F);
+		this.setCreativeTab(Immunology.tabImmunology);
 	
 	}
 	public int quantityDropped(Random par1Random)
@@ -46,7 +48,7 @@ public class BlockDiagnosticTable extends BlockContainer{
 	}
 	public void registerIcons(IconRegister par1IconRegister)
     {
-        this.blockIcon = par1IconRegister.registerIcon(Immunology.modid + ":" + this.getUnlocalizedName2());
+        this.blockIcon = par1IconRegister.registerIcon(Immunology.modid + ":" + Names.diagBlock_unlocalizedName);
     }
 	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLiving entityliving, ItemStack par6ItemStack)
 	{

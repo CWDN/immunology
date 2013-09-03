@@ -1,8 +1,10 @@
 package piefarmer.immunology.entity;
 
+import piefarmer.immunology.common.Immunology;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIFollowParent;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -26,9 +28,9 @@ import net.minecraft.world.World;
 
 public class EntityBadger extends EntityAnimal{
 
+	double moveSpeed = 0.3F;
 	public EntityBadger(World par1World) {
 		super(par1World);
-		texture = "/mods/Immunology/textures/models/badger.png";
 		this.setSize(0.3F, 0.5F);
         this.moveSpeed = 0.3F;
 		this.getNavigator().setAvoidsWater(false);
@@ -52,10 +54,6 @@ public class EntityBadger extends EntityAnimal{
         return par1ItemStack.itemID == Item.melon.itemID;
     }
 	@Override
-	public int getMaxHealth() {
-		return 10;
-	}
-	@Override
 	protected boolean isAIEnabled()
     {
         return true;
@@ -68,6 +66,15 @@ public class EntityBadger extends EntityAnimal{
     {
        return "mob.wolf.growl";
     }
+	private float getHealth(EntityLivingBase entity)
+	{
+		return entity.func_110143_aJ();
+	}
+
+	private float getMaxHealth(EntityLivingBase entity)
+	{
+		return entity.func_110138_aP();
+	}
 
     /**
      * Returns the sound this mob makes when it is hurt.
@@ -75,7 +82,7 @@ public class EntityBadger extends EntityAnimal{
     @Override
     protected String getHurtSound()
     {
-        return "piefarmer.immunology.badgerhurt";
+        return Immunology.modid + ":badgerhurt";
     }
 
     /**
@@ -84,7 +91,7 @@ public class EntityBadger extends EntityAnimal{
     @Override
     protected String getDeathSound()
     {
-        return "piefarmer.immunology.badgerdeath";
+        return Immunology.modid + ":badgerdeath";
     }
 
     /**
